@@ -26,5 +26,6 @@ module.exports.getUsers = (callback) => {
 
 
 module.exports.addUser = (user, callback) => {
+
 	User.create(user, callback);
 }

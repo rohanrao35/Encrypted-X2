@@ -2,7 +2,7 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-
+app.use(bodyParser.json());
 //Connect to mongoose
 mongoose.connect('mongodb://rohanrao35:fitracker@ds121588.mlab.com:21588/encryptedx2')
 //mongoose.connect('mongodb://localhost/')
@@ -34,7 +34,8 @@ app.get('/users', function(req, res){
 
 app.post('/api/users', (req, res) => {
 	var user = req.body;
-	User.addUSer(user, (err, user) => {
+  console.log(req.body);
+	User.addUser(user, (err, user) => {
 		if(err){
 			throw err;
 		}
