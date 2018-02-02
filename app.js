@@ -32,4 +32,15 @@ app.get('/users', function(req, res){
 });
 
 
+app.post('/api/users', (req, res) => {
+	var user = req.body;
+	User.addUSer(user, (err, user) => {
+		if(err){
+			throw err;
+		}
+		res.json(user);
+	});
+});
+
+
 module.exports = app;
