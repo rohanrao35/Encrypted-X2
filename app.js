@@ -43,5 +43,16 @@ app.post('/api/users', (req, res) => {
 	});
 });
 
+app.delete('/api/users/:id', (req, res) => {
+	var id = req.params.id;
+
+
+	User.removeUser(id, (err, user) => {
+		if(err){
+			throw err;
+		}
+		res.json(user);
+	});
+});
 
 module.exports = app;
