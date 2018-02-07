@@ -4,6 +4,8 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 app.use(bodyParser.json());
 //Connect to mongoose
+const bcrypt = require('bcrypt');
+var ObjectId = require('mongodb').ObjectID;
 mongoose.connect('mongodb://rohanrao35:fitracker@ds121588.mlab.com:21588/encryptedx2')
 //mongoose.connect('mongodb://localhost/')
 //mongodb://<dbuser>:<dbpassword>@ds121588.mlab.com:21588/encryptedx2
@@ -34,7 +36,15 @@ app.get('/users', function(req, res){
 
 app.post('/api/users', (req, res) => {
 	var user = req.body;
-  console.log(req.body);
+  user.password = bcrypt.hashSync(req.body.password, req.body.password.length);
+
+//   if(bcrypt.compareSync('qqqqqq', user.password)) {
+//   console.log('Passwords match');
+//   } else {
+//  // Passwords don't match
+//  console.log('NO');
+// }
+
 	User.addUser(user, (err, user) => {
 		if(err){
 			throw err;
@@ -43,11 +53,12 @@ app.post('/api/users', (req, res) => {
 	});
 });
 
-app.delete('/api/users/:id', (req, res) => {
-	var id = req.params.id;
+app.delete('/api/users/:_email', (req, res) => {
+	var _email = req.params._email;
 
+  //id = "5a7a4e9c52e1bf1e8c1c4076";
 
-	User.removeUser(id, (err, user) => {
+	User.removeUser(_email, (err, user) => {
 		if(err){
 			throw err;
 		}

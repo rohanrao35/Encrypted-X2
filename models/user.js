@@ -25,11 +25,12 @@ module.exports.getUsers = (callback) => {
 }
 
 
-module.exports.removeUser = (id, callback) => {
+module.exports.removeUser = (_email, callback) => {
 
+  var query = { email: _email };
+  console.log(query);
+  User.remove(query, callback);
 
-	var query = {_id: ObjectID('55822f34a8394683dd015888')};
-	User.remove(query, callback);
 }
 
 module.exports.addUser = (user, callback) => {
