@@ -6,7 +6,7 @@ var FileSchema = new mongoose.Schema({
   title: String,
   link: String,
   comments: String,
-  dateCreated: String,
+  dateCreated: Date,
   usersShared: Array,
   timeToDelete: Number,
   timeoutOption: Number

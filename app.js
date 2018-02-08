@@ -69,4 +69,15 @@ app.delete('/api/users/:_email', (req, res) => {
 	});
 });
 
+app.delete('/api/files/:_link', (req, res) => {
+	var _link = req.params._link;
+  //id = "5a7a4e9c52e1bf1e8c1c4076";
+	User.removeFile(_link, (err, link) => {
+		if(err){
+			throw err;
+		}
+		res.json(link);
+	});
+});
+
 module.exports = app;
