@@ -1,7 +1,5 @@
 var mongoose = require("mongoose");
 
-
-
 var UserSchema = new mongoose.Schema({
 
   firstName: String,
@@ -18,9 +16,9 @@ var UserSchema = new mongoose.Schema({
 
 
 const UserModel = mongoose.model('User', UserSchema);
-module.exports = UserModel;
+  module.exports = UserModel;
 
-module.exports.getUsers = (callback) => {
+  module.exports.getUsers = (callback) => {
 	User.find(callback);
 }
 
@@ -32,8 +30,18 @@ module.exports.removeUser = (_email, callback) => {
   User.remove(query, callback);
 
 }
-
 module.exports.addUser = (user, callback) => {
-
 	User.create(user, callback);
+}
+
+
+
+module.exports.login = (user, callback) => {
+
+  var query = { email: user.email };
+
+
+
+
+
 }
