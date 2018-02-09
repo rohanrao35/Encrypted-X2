@@ -1,0 +1,111 @@
+html {
+	height: 100%;
+	} 
+
+body {
+	height: 100%;
+	background: #eeeeee;
+	font-family: Sans-Serif;
+}
+
+.title {
+  position: absolute;
+  top: 10px;
+  left: 570px;
+  height:85px;
+  opacity: 0.85;
+}
+
+.divLogin {
+    position: absolute;
+  margin: auto;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 400px;
+  height: 185px;
+  padding-top: 10px;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 3px;
+  border-style: solid;
+}
+
+.divSignUp {
+  position: absolute;
+  margin: auto;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 400px;
+  height: 185px;
+  padding-top: 10px;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 3px;
+  border-style: solid;
+}
+
+#lblHeader {
+	padding-bottom: 20px;
+	font-size: 30px;
+}
+
+#txtUsername {
+	position: relative;
+	left: 8px;
+	margin-top: 15px;
+}
+
+#txtPassword {
+	position: relative;
+	left: 10px;
+}
+
+.divUsername {
+	position: relative;
+	margin-bottom: 10px;
+}
+
+.divPassword {
+	position: relative;
+	margin-bottom: 10px;
+}
+
+.divConfirmPassword {
+	position: relative;
+	margin-bottom: 10px;
+	left: -20px;
+}
+
+.divSignIn {
+	position: relative;
+	left: 50px;
+	margin-bottom: 10px;
+}
+
+.divSignup {
+	position: relative;
+	left: 50px;
+	margin-bottom: 10px;
+}
+
+.fade-enter {
+ 	opacity: 0;
+}
+
+.fade-enter-to {
+ 	opacity: 1;
+}
+
+.fade-leave {
+ 	opacity: 1;
+}
+
+.fade-leave-to {
+ 	opacity: 0;
+}
+
+.fade-enter-active, .fade-leave-active {
+ 	transition: opacity 750ms;
+}

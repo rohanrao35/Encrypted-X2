@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+
+  <script src="https://vuejs.org/js/vue.js"></script>
+  <script language="javascript" type="text/javascript" src="index.js"></script>
+  <link rel="stylesheet" type="text/css" href="index.css">
+
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="1404.47">
+  <style type="text/css">
+  </style>
+</head>
+<body onload="body_onload()">
+
+	<div id="encryptedApp">
+		<img src="/Users/siddharthpatel/Desktop/Purdue/Spring2018/CS408/Encrypted-X2/src/imgs/bakg.jpg" alt="Background Image" style="height: 100%; width: 100%; background-position: center;
+		    background-repeat: no-repeat; background-size: cover; opacity: 0.8">
+
+		<div class="title">
+			<h2 style="font-size: 45px; color: white;">Encrypted-X2</h2>
+		</div>
+
+		<transition name="fade">
+			<div class="divLogin" align="center" v-show="!showLogin">
+				<div class="divHeader">
+					<label id="lblHeader">Sign In</label>
+				</div>
+				<div class="divUsername">
+					<label id="lblUsername">Username:</label>
+					<input type="text" id="txtUsername" v-model="userid"/>
+				</div>
+				<div class="divPassword">
+					<label id="lblPassword">Password:</label>
+					<input type="password" id="txtPassword" v-model="password"/>
+				</div>
+				<div class="divSignIn">
+					<button id="btnSignIn" style="width: 70px; height: 30px; background-color: #008cba; color: white;" v-on:click="btnSignIn_click">Sign in</button>
+				</div>
+				<div class="divSignup">
+					<button id="btnSignUp1" style="width: 70px; height: 30px; background-color: #008cba; color: white;" v-on:click="btnSignUp1_click">Sign Up</button>
+				</div>
+			</div>
+		</transition>
+
+		<transition name="fade">
+			<div class="divSignUp" align="center" v-show="!showSignUp">
+				<div class="divHeader">
+					<label id="lblHeader">Sign Up</label>
+				</div>
+				<div class="divUsername">
+					<label id="lblUsername">Username:</label>
+					<input type="text" id="txtUsername" v-model="signUpId"/>
+				</div>
+				<div class="divPassword">
+					<label id="lblPassword">Password:</label>
+					<input type="password" id="txtPassword" v-model="signUpPassword"/>
+				</div>
+				<div class="divConfirmPassword">
+					<label id="lblConfirmPassword">Confirm Password:</label>
+					<input type="password" id="txtConfirmPassword" v-model="signUpConfirmPassword"/>
+				</div>
+				<div class="divSignIn">
+					<button id="btnSignUp2" style="width: 70px; height: 30px; background-color: #008cba; color: white;" v-on:click="btnSubmit_click">Submit</button>
+				</div>
+			</div>
+		</transition>
+
+<!--
+ 		<question-box v-for="question in questions" 
+ 					  v-bind:key="question.id"
+ 					  v-bind:id="question.id"
+ 					  v-bind:text="question.text"
+ 					  v-bind:answer="question.answer"
+ 					  v-bind:airdate="question.airdate"
+ 					  v-bind:dollarvalue="question.dollarvalue"
+ 					  v-bind:categorytitle="question.categorytitle">
+ 		</question-box>
+-->
+	</div>
+
+</body>
+</html>
