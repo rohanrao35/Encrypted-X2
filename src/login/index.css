@@ -17,13 +17,13 @@ body {
 }
 
 .divLogin {
-    position: absolute;
+  position: absolute;
   margin: auto;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
-  width: 400px;
+  width: 600px;
   height: 185px;
   padding-top: 10px;
   background-color: rgba(255, 255, 255, 0.7);
@@ -38,8 +38,8 @@ body {
   right: 0;
   bottom: 0;
   left: 0;
-  width: 400px;
-  height: 185px;
+  width: 600px;
+  height: 300px;
   padding-top: 10px;
   background-color: rgba(255, 255, 255, 0.7);
   border-radius: 3px;
@@ -51,31 +51,86 @@ body {
 	font-size: 30px;
 }
 
+#lblFirstName {
+  position: relative;
+  left: 1px;
+  margin-top: 15px;
+}
+
+#txtFirstName {
+  position: relative;
+  left: 7px;
+  margin-top: 15px;
+}
+
+#lblLastName {
+  position: relative;
+  left: 1px;
+  margin-top: 15px;
+}
+
+#txtLastName {
+  position: relative;
+  left: 7px;
+  margin-top: 15px;
+}
+
 #txtUsername {
 	position: relative;
-	left: 8px;
+	left: 7px;
 	margin-top: 15px;
+}
+
+#btnSignIn {
+  position: relative;
+  width: 70px; 
+  height: 30px;
+  left: 58px; 
+  background-color: #008cba; 
+  color: white;
 }
 
 #txtPassword {
 	position: relative;
-	left: 10px;
+	left: 7px;
+}
+
+#txtAccessKey {
+  position: relative;
+  left: 7px;
+}
+
+#btnSignUp1 {
+  position: relative;
+  width: 70px; 
+  height: 30px;
+  left: 58px; 
+  background-color: #008cba; 
+  color: white;
 }
 
 .divUsername {
 	position: relative;
-	margin-bottom: 10px;
+	margin-bottom: 15px;
+  left: 20px;
 }
 
 .divPassword {
 	position: relative;
-	margin-bottom: 10px;
+	margin-bottom: 15px;
+  left: 5px;
 }
 
 .divConfirmPassword {
 	position: relative;
-	margin-bottom: 10px;
-	left: -20px;
+	margin-bottom: 15px;
+	left: -18px;
+}
+
+.divAccessKey {
+  position: relative;
+  margin-bottom: 15px;
+  left: -1px;
 }
 
 .divSignIn {

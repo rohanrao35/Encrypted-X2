@@ -8,12 +8,15 @@ function body_onload() {
 		 el: "#encryptedApp",
 		 data: {
 		 	 showLogin: 			false,
-		 	 showSignUp: 			true,
 			 userid:    			"",
 			 password:  			"",
+			 
 			 signUpId:  			"",
 			 signUpPassword:        "",
-			 signUpConfirmPassword: "",			 
+			 signUpConfirmPassword: "",
+			 firstName: 			"",
+			 lastName:  			"",
+			 accessKey:       		"",			 
  		 },
 
 		 methods: {
@@ -49,12 +52,41 @@ function body_onload() {
 
 		 	btnSignUp1_click: function () {
 		 		this.showLogin = true;
-		 		this.showSignUp = false;
+		 		window.location.href = "../main/main.html" 
 		 	},
 
 		 	btnSubmit_click: function () {
-		 		this.showLogin = false;
-		 		this.showSignUp = true;
+		 		this.showLogin  = false;
+
+		 		if (this.signUpPassword == "" || this.signUpPassword != this.signUpConfirmPassword) return;
+
+		 		var credentials        = new Object();
+    			credentials.email      = this.signUpId;
+    			credentials.password   = this.signUpPassword;
+
+    			var self = this;
+			    fetch(url + "/signup", {
+			        method: "POST",
+			        headers: {
+			            'content-type': 'application/json'
+			        },
+			        body: JSON.stringify(credentials)
+			    }).then(function(res) {
+			            if (res.ok) {
+			                res.json().then(function(data) {
+			                	auth = data.authtoken;
+			                	//localStorage.setItem("authToken", data.authtoken);
+			                	self.showSignUp = true;
+			                });
+			            }
+			            else {
+			                res.json().then(function(data) {
+			                    alert(data.message);
+			                });
+			            }
+			        }).catch(function(err) {
+			            alert(err.message);
+			    }); 
 		 	}
 		},
 	});
