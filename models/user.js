@@ -36,12 +36,19 @@ module.exports.addUser = (user, callback) => {
 
 
 
+/*
 module.exports.login = (user, callback) => {
 
-  var query = { email: user.email };
+  console.log(user);
+
+}
+*/
 
 
-
-
-
+module.exports.login = (un, user, options, callback) => {
+	var query = {username: un};
+	var update = {
+		loggedIn: 1
+	}
+	User.findOneAndUpdate(query, update, options, callback);
 }
