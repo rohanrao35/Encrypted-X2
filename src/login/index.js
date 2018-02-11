@@ -1,6 +1,6 @@
 "use strict";
 
-var url  = "http://localhost:3000/"
+var url  = "http://localhost:3000"
 var auth = ""
 
 function body_onload() {
@@ -16,11 +16,24 @@ function body_onload() {
 			 signUpConfirmPassword: "",
 			 firstName: 			"",
 			 lastName:  			"",
-			 accessKey:       		"",			 
+			 accessKey:       		"",
+
+			 //nameErr:   		    '',			 
+ 		 },
+/*
+ 		 computed: {
+ 		 	displayErrors: function() {
+ 		 		this.nameErr =  (this.signUpId == "") ? "*Required" : "";
+ 		 		return this.nameErr;
+ 		 	}
  		 },
 
-		 methods: {
+*/		 methods: {
 			btnSignIn_click: function () {
+				if (this.userid == "" || this.password == "") {
+					alert("All fields are required");
+		 			return;
+				}
 				var credentials        = new Object();
     			credentials.email      = this.userid;
     			credentials.password   = this.password;
@@ -35,9 +48,9 @@ function body_onload() {
 			    }).then(function(res) {
 			            if (res.ok) {
 			                res.json().then(function(data) {
-			                	auth = data.authtoken;
+			                	//auth = data.authtoken;
 			                	//localStorage.setItem("authToken", data.authtoken);
-			                	self.showLogin = true;
+			                	window.location.href = "../main/main.html"
 			                });
 			            }
 			            else {
@@ -50,22 +63,32 @@ function body_onload() {
 			    }); 
 		 	},
 
-		 	btnSignUp1_click: function () {
+		 	btnSignUp_click: function () {
 		 		this.showLogin = true;
-		 		window.location.href = "../main/main.html" 
+				//window.location.href = "../main/main.html" 
 		 	},
 
 		 	btnSubmit_click: function () {
 		 		this.showLogin  = false;
 
-		 		if (this.signUpPassword == "" || this.signUpPassword != this.signUpConfirmPassword) return;
+		 		if (this.firstName == "" || this.lastName == "" || this.signUpId == "" || this.signUpPassword == "" || this.signUpConfirmPassword == "" || this.accessKey.length != 6) {
+		 			alert("All fields are required");
+		 			return;
+		 		}
+		 		if (this.signUpPassword != this.signUpConfirmPassword) {
+		 			alert("Passwords don't match")
+		 			return;
+		 		}
 
 		 		var credentials        = new Object();
+		 		credentials.firstname  = this.firstName;
+		 		credentials.lastName   = this.lastName;
     			credentials.email      = this.signUpId;
     			credentials.password   = this.signUpPassword;
+    			credentials.accesskey  = this.accessKey;
 
     			var self = this;
-			    fetch(url + "/signup", {
+			    fetch(url + "/createaccount", {
 			        method: "POST",
 			        headers: {
 			            'content-type': 'application/json'
@@ -74,9 +97,9 @@ function body_onload() {
 			    }).then(function(res) {
 			            if (res.ok) {
 			                res.json().then(function(data) {
-			                	auth = data.authtoken;
+			                	// auth = data.authtoken;
 			                	//localStorage.setItem("authToken", data.authtoken);
-			                	self.showSignUp = true;
+			                	self.showLogin = false;
 			                });
 			            }
 			            else {

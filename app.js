@@ -75,6 +75,9 @@ app.post('/createaccount', (req, res) => {
 		}
 		res.json(user);
 	});
+
+  return res.status(200).json({message: "Success"});
+
 });
 
 app.delete('/api/users/:_email', (req, res) => {
