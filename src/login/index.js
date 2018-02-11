@@ -81,11 +81,11 @@ function body_onload() {
 		 		}
 
 		 		var credentials        = new Object();
-		 		credentials.firstname  = this.firstName;
+		 		credentials.firstName  = this.firstName;
 		 		credentials.lastName   = this.lastName;
     			credentials.email      = this.signUpId;
     			credentials.password   = this.signUpPassword;
-    			credentials.accesskey  = this.accessKey;
+    			credentials.accessKey  = this.accessKey;
 
     			var self = this;
 			    fetch(url + "/createaccount", {
