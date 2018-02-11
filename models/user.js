@@ -33,15 +33,3 @@ module.exports.removeUser = (_email, callback) => {
 module.exports.addUser = (user, callback) => {
 	User.create(user, callback);
 }
-
-
-
-module.exports.login = (user, callback) => {
-
-  var query = { email: user.email };
-
-
-
-
-
-}
