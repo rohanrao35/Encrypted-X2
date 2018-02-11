@@ -60,8 +60,8 @@ function body_onload() {
 		 	},
 
 		 	btnSignUp_click: function () {
-		 		//this.showLogin = true;
-				window.location.href = "../main/main.html" 
+		 		this.showLogin = true;
+				//window.location.href = "../main/main.html" 
 		 	},
 
 		 	btnSubmit_click: function () {
