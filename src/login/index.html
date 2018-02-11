@@ -17,7 +17,7 @@
 <body onload="body_onload()">
 
 	<div id="encryptedApp">
-		<img src="/Users/siddharthpatel/Desktop/Purdue/Spring2018/CS408/Encrypted-X2/src/imgs/bakg.jpg" alt="Background Image" style="height: 100%; width: 100%; background-position: center; background-repeat: no-repeat; background-size: cover; opacity: 0.8" v-show="!showMain">
+		<img src="/Users/siddharthpatel/Desktop/Purdue/Spring2018/CS408/Encrypted-X2/src/imgs/bakg.jpg" alt="Background Image" style="height: 100%; width: 100%; background-position: center; background-repeat: no-repeat; background-size: cover; opacity: 0.8">
 
 		<div class="title">
 			<h2 style="font-size: 45px; color: white;">Encrypted-X2</h2>
@@ -36,7 +36,7 @@
 				<div class="divPassword">
 					<label id="lblPassword">Password:</label>
 					<input type="password" id="txtPassword" v-model="password"/>
-					<button id="btnSignUp1" v-on:click="btnSignUp1_click">Sign Up</button>
+					<button id="btnSignUp1" v-on:click="btnSignUp_click">Sign Up</button>
 				</div>
 			</div>
 		</transition>
@@ -49,10 +49,12 @@
 				<div class="divFirstName">
 					<label id="lblFirstName">First Name:</label>
 					<input type="text" id="txtFirstName" v-model="firstName"/>
+					<!--<label id="lblNameErr">{{ displayErrors }}</label>-->
 				</div>
 				<div class="divLastName">
 					<label id="lblLastName">Last Name:</label>
 					<input type="text" id="txtLastName" v-model="lastName"/>
+
 				</div>
 				<div class="divUsername">
 					<label id="lblUsername">Email:</label>
