@@ -43,8 +43,22 @@ app.get('/users', function(req, res){
 
 
 app.post('/createaccount', (req, res) => {
+
+  var collection = db.collection('users');
+  var _email = req.body.email;
+
+  collection.find({email: req.body.email}).toArray(function (err, items) {
+
+   var user = items[0];
+
+   if(user){
+     console.log('User already exists');
+     return res.status(401).json({message: "User already exists"});
+   }
+ });
+
 	var user = req.body;
-  //user.password = bcrypt.hashSync(req.body.password, req.body.password.length);
+  user.password = bcrypt.hashSync(req.body.password, req.body.password.length);
 
   console.log(user);
 
@@ -91,19 +105,21 @@ app.post('/login/', function(req, res){
 
    var user = items[0];
 
-   if(user.password == req.body.password){
-
-     return res.status(200).json({message: "Success"});
-
+   if(!user){
+     console.log('No user');
+     return res.status(401).json({message: "User does not exit"});
    }
-   else if (!user){
 
-     console.log("NO");
-     return res.status(401).json({message: "No user"});
-   }
-   else {
+  if(bcrypt.compareSync(req.body.password, user.password)) {
+    console.log('Passwords match');
+    return res.status(200).json({message: "Success"});
+
+  }
+  else if (!bcrypt.compareSync(req.body.password, user.password)){
+  //
+     console.log('Wrong password');
      return res.status(401).json({message: "Invalid credentials"});
-   }
+  }
 
  	});
 
