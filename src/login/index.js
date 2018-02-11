@@ -1,6 +1,6 @@
 "use strict";
 
-var url  = "http://localhost:3000/"
+var url  = "http://localhost:3000"
 var auth = ""
 
 function body_onload() {
@@ -30,6 +30,10 @@ function body_onload() {
 
 */		 methods: {
 			btnSignIn_click: function () {
+				if (this.userid == "" || this.password == "") {
+					alert("All fields are required");
+		 			return;
+				}
 				var credentials        = new Object();
     			credentials.email      = this.userid;
     			credentials.password   = this.password;
@@ -67,8 +71,14 @@ function body_onload() {
 		 	btnSubmit_click: function () {
 		 		this.showLogin  = false;
 
-		 		if (this.firstName == "" || this.lastName == "" || this.signUpId == "" || this.signUpPassword == "" || this.signUpConfirmPassword == "" || this.accessKey.length != 6) return;
-		 		if (this.signUpPassword != this.signUpConfirmPassword) return;
+		 		if (this.firstName == "" || this.lastName == "" || this.signUpId == "" || this.signUpPassword == "" || this.signUpConfirmPassword == "" || this.accessKey.length != 6) {
+		 			alert("All fields are required");
+		 			return;
+		 		}
+		 		if (this.signUpPassword != this.signUpConfirmPassword) {
+		 			alert("Passwords don't match")
+		 			return;
+		 		}
 
 		 		var credentials        = new Object();
 		 		credentials.firstname  = this.firstName;
