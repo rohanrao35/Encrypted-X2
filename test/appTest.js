@@ -1,34 +1,31 @@
-const assert = require('chai').assert;
-//const sayHello = require('../app').sayHello;
-//const addNumbers = require('../app').addNumbers;
-const user = require('../models/user');
-const app = require('../app');
-//const app = require('../app'); bring in entire app and just use app.sayHello()
+var expect = require('chai').expect;
+var app = require('../app');
+var request = require('supertest');
 
-describe('App', function(){
+const userCredentials = {
+  email: 'rao46@purdue.edu',
+  password: ''
+}
 
-  it('login should return true', function(){
-    let result = app.
-  })
+var authenticatedUser = request.agent(app);
 
-  it('sayHello should return hello', function(){
-    let result = sayHello();
-    assert.equal(result, 'hello');
+before(function(done){
+  authenticatedUser
+  .post('/login/')
+  .send(userCredentials)
+  .end(function(err, response){
+    expect(response.statusCode).to.equal(200);
+    done();
+  });
+});
+
+describe('Post /login/', function(done){
+
+  it('it should return a response 200 since user should be able to login',
+   function(done){
+     authenticatedUser(app).get('/..main/main.html')
+     .expect(200, done);
   });
 
-  it('sayHello should return type string', function(){
-    let result = sayHello();
-    assert.typeOf(result, 'string');
-  });
-
-  it('addNumbers should be above 5', function(){
-    let result = addNumbers(5,5);
-    assert.isAbove(result, 5);
-  });
-
-  it('addNumbers should return type number', function(){
-    let result = addNumbers(5,5);
-    assert.typeOf(result, 'number');
-  });
 
 });
