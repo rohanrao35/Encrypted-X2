@@ -50,7 +50,7 @@ function body_onload() {
 			                res.json().then(function(data) {
 			                	//auth = data.authtoken;
 			                	//localStorage.setItem("authToken", data.authtoken);
-			                	window.location.href = "../main/main.html"
+			                	window.location.href = "../main/main.html?email=" + this.userid
 			                });
 			            }
 			            else {

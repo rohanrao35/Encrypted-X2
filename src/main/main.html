@@ -9,34 +9,38 @@
   <script language="javascript" type="text/javascript" src="main.js"></script>
   <link rel="stylesheet" type="text/css" href="main.css">
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
   <script type="text/x-template" id="file-box-template">
-		 <div>
-		 <div class="divQuestionBox">
+		 <div class="divFileBox">
 			 <div class="divBox1">
+			 	<label class="lblDate">{{date}}</label>
+			 	<!--
 			 	<label class="lblCategoryTitle">{{categorytitle}}</label>
 			 	<label class="lblQuestionDollarValue">${{dollarvalue}}<br></label>
 			 	<label class="lblQuestionAirDate">Aired {{airdate}}</label>
+			 	-->
 			 </div>
 
-			 <div class="divBox2">
-			 	<label class="lblQuestionText" v-on:mouseover="showAnswer = true" v-on:mouseleave="showAnswer = false">{{text}}</label>
-
+			 <div  class="divBox2">
+			 	<label class="lblTitle" v-on:mouseover="showComments = true" v-on:mouseleave="showComments = false">{{title}}</label>
+			 	<!-- <label class="lblQuestionText" v-on:mouseover="showAnswer = true" v-on:mouseleave="showAnswer = false">{{text}}</label> -->
 			 	<transition name="fade">
-				 	<label class="lblQuestionAnswer" v-show="showAnswer">{{answer}}</label>
-			 	</transition>
+	    			<div align="top-left" class=divCommentsBox v-show="showComments">{{comments}}</div>
+				</transition>
 			 </div>
 
-    		<button id = "icon" class="btnDelete" v-on:click="btnDelete_click"><i class="fa fa-trash"></i></button>
+    		<button id = "icon" class="btnDelete" v-on:click="btnDelete_click"><i class="fa fa-trash w3-xxlarge"></i></button>
     		
     		<transition name="fade">
 	    		<div class="divConfirm" v-show="showConfirm">
-	    			<label class="lblConfirmMsg">Are you sure you want to delete this question?</label>
+	    			<label class="lblConfirmMsg">Are you sure you want to delete this file?</label>
 	    			<button class="btnYes" v-on:click="btnYes_click">Yes</button>
 	    			<button class="btnNo" v-on:click="btnNo_click">No</button>
 	    		</div>
     		</transition>
 		</div>
+
   </script>
 
   <meta name="Generator" content="Cocoa HTML Writer">
@@ -89,8 +93,17 @@
 			 	<button class="btnSave" v-on:click="btnSave_click">Save</button>
 			 	<button class="btnCancel" v-on:click="btnCancel_click">Cancel</button>
 			 	<button class="btnUpload2" v-on:click="btnUpload2_click">Upload</button>
+			 	<label id="lblTitle2">Title: </label>
+			 	<input type="text" id="txtTitle2" v-model="fileTitle"/>
 			 </div>
 		</transition>
+
+		<file-box v-for="file in files"
+					  v-bind:url="file.url" 					  
+ 					  v-bind:date="file.date"
+ 					  v-bind:title="file.title"
+ 					  v-bind:comments="file.comments">
+ 		</file-box>
 	</div>
 
 </body>

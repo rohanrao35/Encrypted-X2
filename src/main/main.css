@@ -26,30 +26,9 @@
 	font-size: 18px;
 }
 
-#btnSearch {
-	position: absolute;
-	left: 640px;
-	top: 90px;
-	width: 100px;
-	height: 25px;
-	text-align: center;
-	font-size: 18px;
-}
-
-
-.divQuestionBox {
-	position:relative;
-	left: 20px;
-	border: 1px solid #cfc7c7;
-	background: #ffffff;
-	width: 700px;
-	height: 180px;
-	margin:20px;
-	padding:10px;
-	box-shadow:0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
-}
 
 #icon {
+	position: absolute;
 	float: right;
 }
 
@@ -88,60 +67,20 @@
 	background-color: red;
 }
 
-.divBox1 {
-	position:relative;     
-    width:250px;
-    height:140px;
+.divBox1 {  
+    width: 130px;
+    height:60px;
     font-family:Sans-Serif;
     float:left;   
     text-align:left;
 }
 
-.lblCategoryTitle {
-	top: 10px;
-	position: absolute;
-	font-family: Sans-Serif;
-	font-size: 16px;
-}
-
-.lblQuestionDollarValue {
-	top: 60px;
-	position: absolute;
-	font-family: Sans-Serif;
-	font-size: 18px;
-}
-
-.lblQuestionAirDate {
-	top: 100px;
-	position: absolute;
-	font-family: Sans-Serif;
-	font-size: 18px;
-}
-
 .divBox2 {
-	position:relative;     
     width:300px;
     height:170px;
     font-family:Sans-Serif;
     float:left;
     text-align: left;
-}
-
-.lblQuestionText {
-	position:absolute;
-	top: 10px;
-	font-family: Sans-Serif;
-	font-size: 18px;
-}
-
-.lblQuestionAnswer {
-	position:absolute;
-	left: 0px;
-	bottom: 0px;
-	font-family: Sans-Serif;
-	font-size: 18px;
-	vertical-align: text-bottom;
-	color: #006699;
 }
 
 .divUpload {
@@ -251,6 +190,68 @@
 	text-align: left;
 	font-family: Sans-Serif;
 	font-size: 18px;
+}
+
+#lblTitle2 {
+	position: absolute;
+	left: 57px;
+	top: 225px;
+	width: 250px;
+	height: 30px;
+	font-family: Sans-Serif;
+	font-size: 16px;
+}
+
+#txtTitle2 {
+	position: absolute;
+	left: 97px;
+	top: 222px;
+	width: 150px;
+	height: 30px;
+	font-family: Sans-Serif;
+	font-size: 25px;
+}
+
+.divFileBox {
+	position:relative;
+	left: 20px;
+	border: 1px solid #cfc7c7;
+	background: #ffffff;
+	width: 500px;
+	height: 60px;
+	margin:20px;
+	padding:10px;
+	box-shadow:0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+}
+.divCommentsBox {
+	position:relative;
+	left: 355px;
+	top: -30px;
+	border: 1px solid #cfc7c7;
+	width: 400px;
+	height: 60px;
+	margin:20px;
+	padding:10px;
+	background:rgba(76, 175, 80, 0.3);	
+}
+
+.lblDate {
+	top: 10px;
+	position: absolute;
+	font-family: Sans-Serif;
+	font-size: 20px;
+}
+
+.lblTitle {
+	top: 10px;
+	position: absolute;
+	font-family: Sans-Serif;
+	font-size: 20px;
+	font-weight: bold;
+}
+
+.pComments {
+	font-size: 15px;
 }
 
 .fade-enter {
