@@ -50,7 +50,7 @@ function body_onload() {
 			                res.json().then(function(data) {
 			                	//auth = data.authtoken;
 			                	//localStorage.setItem("authToken", data.authtoken);
-			                	window.location.href = "../main/main.html?email=" + this.userid
+			                	window.location.href = "../main/main.html?email=" + self.userid
 			                });
 			            }
 			            else {
@@ -72,7 +72,7 @@ function body_onload() {
 		 		this.showLogin  = false;
 
 		 		if (this.firstName == "" || this.lastName == "" || this.signUpId == "" || this.signUpPassword == "" || this.signUpConfirmPassword == "" || this.accessKey.length != 6) {
-		 			alert("All fields are required");
+		 			alert("All fields are required and accessKey should be 6 characters long");
 		 			return;
 		 		}
 		 		if (this.signUpPassword != this.signUpConfirmPassword) {
@@ -104,6 +104,7 @@ function body_onload() {
 			            }
 			            else {
 			                res.json().then(function(data) {
+			                	self.showLogin = true;
 			                    alert(data.message);
 			                });
 			            }
