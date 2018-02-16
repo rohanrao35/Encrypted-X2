@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node_modules/mocha/bin/mocha ./tests"
   },
   "dependencies": {
     "aes-js": "^3.1.0",
@@ -18,5 +18,11 @@
     "passport-google-oauth": "^1.0.0"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^5.0.0",
+    "superagent": "^3.8.2",
+    "supertest": "^3.0.0"
+  }
 }

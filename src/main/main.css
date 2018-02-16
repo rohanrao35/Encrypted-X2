@@ -1,0 +1,275 @@
+#divSearch {
+	left: 0px;
+	width: 420px;
+	height: 160px;
+}
+
+#lblTitle {
+	position: relative;
+	left: 10px;
+	width: 250px;
+	height: 30px;
+	text-align: right;
+	font-family: Sans-Serif;
+	font-size: 25px;
+	font-weight: bold;
+}
+
+
+#txtSearch {
+	position: absolute;
+	left: 36px;
+	top: 90px;
+	width: 600px;
+	height: 35px;
+	font-family: Sans-Serif;
+	font-size: 18px;
+}
+
+
+#icon {
+	position: absolute;
+	float: right;
+}
+
+.divConfirm {
+	position: relative;
+	left: 0px;
+	height: 40px;
+	width: 600px;
+	padding-top: 6px;
+	padding-right: 5px;
+	border: 1px solid #cfc7c7;
+	background-color: #ccc;
+	box-shadow:0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+.lblConfirmMsg {
+	position: absolute;
+	left: 10px;
+}
+
+.btnYes {
+	position: absolute;
+	left: 450px;
+	padding-bottom: 5px;
+	height: 25px;
+	width: 60px;
+	background-color: green;
+}
+
+.btnNo {
+	position: absolute;
+	left: 520px;
+	padding-bottom: 5px;
+	height: 25px;
+	width: 60px;
+	background-color: red;
+}
+
+.divBox1 {  
+    width: 130px;
+    height:60px;
+    font-family:Sans-Serif;
+    float:left;   
+    text-align:left;
+}
+
+.divBox2 {
+    width:300px;
+    height:170px;
+    font-family:Sans-Serif;
+    float:left;
+    text-align: left;
+}
+
+.divUpload {
+	position: relative;
+	border: 1px solid #cfc7c7;
+	background: #ffffff;
+	width: 700px;
+	height: 275px;
+	margin:40px;
+	padding:10px;
+	box-shadow:0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+#lblUpload {
+	position: absolute;
+	left: -100px;
+	width: 250px;
+	height: 30px;
+	text-align: right;
+	font-family: Sans-Serif;
+	font-size: 25px;
+	font-weight: bold;
+}
+
+#lblViewTime {
+	position: absolute;
+	left: 15px;
+	top: 84px;
+	width: 250px;
+	height: 30px;
+	font-family: Sans-Serif;
+	font-size: 15px;
+}
+
+#txtViewTime {
+	position: absolute;
+	left: 97px;
+	top: 82px;
+	width: 170px;
+	height: 30px;
+	font-family: Sans-Serif;
+	font-size: 18px;
+}
+
+#lblDelete {
+	position: absolute;
+	left: 300px;
+	top: 84px;
+	width: 250px;
+	height: 30px;
+	font-family: Sans-Serif;
+	font-size: 15px;
+}
+
+#txtDeleteTime {
+	position: absolute;
+	left: 425px;
+	top: 82px;
+	width: 170px;
+	height: 30px;
+	font-family: Sans-Serif;
+	font-size: 18px;
+}
+
+.btnSave {
+	position: absolute;
+	left: 610px;
+	top: 82px;
+	height: 25px;
+	width: 65px;
+	background-color: green;
+}
+
+.btnCancel {
+	position: absolute;
+	left: 610px;
+	top: 132px;
+	height: 25px;
+	width: 65px;
+	background-color: red;
+}
+
+.btnUpload2 {
+	position: absolute;
+	left: 610px;
+	top: 182px;
+	height: 25px;
+	width: 65px;
+}
+
+#lblComments {
+	position: absolute;
+	left: 15px;
+	top: 132px;
+	width: 250px;
+	height: 30px;
+	font-family: Sans-Serif;
+	font-size: 15px;
+}
+
+#txtComments {
+	position: absolute;
+	left: 97px;
+	top: 132px;
+	width: 500px;
+	height: 80px;
+	text-align: left;
+	font-family: Sans-Serif;
+	font-size: 18px;
+}
+
+#lblTitle2 {
+	position: absolute;
+	left: 57px;
+	top: 225px;
+	width: 250px;
+	height: 30px;
+	font-family: Sans-Serif;
+	font-size: 16px;
+}
+
+#txtTitle2 {
+	position: absolute;
+	left: 97px;
+	top: 222px;
+	width: 150px;
+	height: 30px;
+	font-family: Sans-Serif;
+	font-size: 25px;
+}
+
+.divFileBox {
+	position:relative;
+	left: 20px;
+	border: 1px solid #cfc7c7;
+	background: #ffffff;
+	width: 500px;
+	height: 60px;
+	margin:20px;
+	padding:10px;
+	box-shadow:0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+}
+.divCommentsBox {
+	position: absolute;
+	left: 485px;
+	top: -23px;
+	border: 1px solid #cfc7c7;
+	width: 400px;
+	height: 60px;
+	margin:20px;
+	padding:10px;
+	background:rgba(76, 175, 80, 0.3);	
+}
+
+.lblDate {
+	top: 10px;
+	position: absolute;
+	font-family: Sans-Serif;
+	font-size: 20px;
+}
+
+.lblTitle {
+	top: 10px;
+	position: absolute;
+	font-family: Sans-Serif;
+	font-size: 20px;
+	font-weight: bold;
+}
+
+.pComments {
+	font-size: 15px;
+}
+
+.fade-enter {
+ 	opacity: 0;
+}
+
+.fade-enter-to {
+ 	opacity: 1;
+}
+
+.fade-leave {
+ 	opacity: 1;
+}
+
+.fade-leave-to {
+ 	opacity: 0;
+}
+
+.fade-enter-active, .fade-leave-active {
+ 	transition: opacity 750ms;
+}

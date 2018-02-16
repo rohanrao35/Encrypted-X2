@@ -20,7 +20,7 @@ module.exports.getFiles = (callback) => {
 }
 
 
-module.exports.removeFile = (id, callback) => {
+module.exports.removeFile = (_link, callback) => {
   var query = { link: _link };
   console.log(query);
 	Files.remove(query, callback);

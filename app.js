@@ -10,22 +10,25 @@ mongoose.connect('mongodb://rohanrao35:fitracker@ds121588.mlab.com:21588/encrypt
 //mongoose.connect('mongodb://localhost/')
 //mongodb://<dbuser>:<dbpassword>@ds121588.mlab.com:21588/encryptedx2
 //mongoose.connect('mongodb://rohanrao35:fitracker1@ds129946.mlab.com:29946/fitracker');
+
+//mongoose.connect('mongodb://rohanrao35:fitracker@ds129946.mlab.com:29946/fitracker')
+
+
+
 var db = mongoose.connection;
 User =require('./models/user');
+Files =require('./models/file');
 
 app.get('/', function(req, res){
   res.send('Hello ');
 });
 
-app.post('/login'){
 
-  //req.email
-  //req.password
-
-}
 
 
 app.listen(3000);
+
+
 
 
 app.get('/users', function(req, res){
@@ -39,9 +42,25 @@ app.get('/users', function(req, res){
 });
 
 
-app.post('/api/users', (req, res) => {
+app.post('/createaccount', (req, res) => {
+
+  var collection = db.collection('users');
+  var _email = req.body.email;
+
+  collection.find({email: req.body.email}).toArray(function (err, items) {
+
+   var user = items[0];
+
+   if(user){
+     console.log('User already exists');
+     return res.status(401).json({message: "User already exists"});
+   }
+ });
+
 	var user = req.body;
   user.password = bcrypt.hashSync(req.body.password, req.body.password.length);
+
+  console.log(user);
 
 //   if(bcrypt.compareSync('qqqqqq', user.password)) {
 //   console.log('Passwords match');
@@ -56,6 +75,9 @@ app.post('/api/users', (req, res) => {
 		}
 		res.json(user);
 	});
+
+  return res.status(200).json({message: "Success"});
+
 });
 
 app.delete('/api/users/:_email', (req, res) => {
@@ -69,15 +91,87 @@ app.delete('/api/users/:_email', (req, res) => {
 	});
 });
 
+
+
+
+
+
+app.post('/login/', function(req, res){
+  //console.log(req.body.email);
+
+  var collection = db.collection('users');
+  var _email = req.body.email;
+  var first;
+
+   //collection.find({password: req.body.password}).toArray(function (err, items) {
+   collection.find({email: req.body.email}).toArray(function (err, items) {
+
+   var user = items[0];
+
+   if(!user){
+     console.log('No user');
+     return res.status(401).json({message: "User does not exit"});
+   }
+
+  if(bcrypt.compareSync(req.body.password, user.password)) {
+    console.log('Passwords match');
+    return res.status(200).json({message: "Success"});
+
+  }
+  else if (!bcrypt.compareSync(req.body.password, user.password)){
+  //
+     console.log('Wrong password');
+     return res.status(401).json({message: "Invalid credentials"});
+  }
+
+ 	});
+
+});
+
+
+
+/////////////////////////FILES///////////////////////////
+
+
+
+app.get('/files', function(req, res){
+
+  Files.getFiles(function(err, files){
+      if(err){
+        throw err;
+      }
+      res.json(files);
+  });
+});
+
 app.delete('/api/files/:_link', (req, res) => {
 	var _link = req.params._link;
   //id = "5a7a4e9c52e1bf1e8c1c4076";
-	User.removeFile(_link, (err, link) => {
+	Files.removeFile(_link, (err, _link) => {
 		if(err){
 			throw err;
 		}
-		res.json(link);
+		res.json(_link);
 	});
 });
+
+
+
+app.post('/addfile', (req, res) => {
+	var file = req.body;
+  //user.password = bcrypt.hashSync(req.body.password, req.body.password.length);
+
+  console.log(file);
+
+	Files.addFile(file, (err, file) => {
+		if(err){
+			throw err;
+		}
+		res.json(file);
+	});
+});
+
+
+
 
 module.exports = app;

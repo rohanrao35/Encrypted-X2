@@ -17,8 +17,7 @@
 <body onload="body_onload()">
 
 	<div id="encryptedApp">
-		<img src="/Users/siddharthpatel/Desktop/Purdue/Spring2018/CS408/Encrypted-X2/src/imgs/bakg.jpg" alt="Background Image" style="height: 100%; width: 100%; background-position: center;
-		    background-repeat: no-repeat; background-size: cover; opacity: 0.8">
+		<img src="../imgs/bakg.jpg" alt="Background Image" style="height: 100%; width: 100%; background-position: center; background-repeat: no-repeat; background-size: cover; opacity: 0.8">
 
 		<div class="title">
 			<h2 style="font-size: 45px; color: white;">Encrypted-X2</h2>
@@ -30,29 +29,35 @@
 					<label id="lblHeader">Sign In</label>
 				</div>
 				<div class="divUsername">
-					<label id="lblUsername">Username:</label>
+					<label id="lblUsername">Email:</label>
 					<input type="text" id="txtUsername" v-model="userid"/>
+					<button id="btnSignIn" v-on:click="btnSignIn_click">Sign in</button>
 				</div>
 				<div class="divPassword">
 					<label id="lblPassword">Password:</label>
 					<input type="password" id="txtPassword" v-model="password"/>
-				</div>
-				<div class="divSignIn">
-					<button id="btnSignIn" style="width: 70px; height: 30px; background-color: #008cba; color: white;" v-on:click="btnSignIn_click">Sign in</button>
-				</div>
-				<div class="divSignup">
-					<button id="btnSignUp1" style="width: 70px; height: 30px; background-color: #008cba; color: white;" v-on:click="btnSignUp1_click">Sign Up</button>
+					<button id="btnSignUp1" v-on:click="btnSignUp_click">Sign Up</button>
 				</div>
 			</div>
 		</transition>
 
 		<transition name="fade">
-			<div class="divSignUp" align="center" v-show="!showSignUp">
+			<div class="divSignUp" align="center" v-show="showLogin">
 				<div class="divHeader">
 					<label id="lblHeader">Sign Up</label>
 				</div>
+				<div class="divFirstName">
+					<label id="lblFirstName">First Name:</label>
+					<input type="text" id="txtFirstName" v-model="firstName"/>
+					<!--<label id="lblNameErr">{{ displayErrors }}</label>-->
+				</div>
+				<div class="divLastName">
+					<label id="lblLastName">Last Name:</label>
+					<input type="text" id="txtLastName" v-model="lastName"/>
+
+				</div>
 				<div class="divUsername">
-					<label id="lblUsername">Username:</label>
+					<label id="lblUsername">Email:</label>
 					<input type="text" id="txtUsername" v-model="signUpId"/>
 				</div>
 				<div class="divPassword">
@@ -60,8 +65,12 @@
 					<input type="password" id="txtPassword" v-model="signUpPassword"/>
 				</div>
 				<div class="divConfirmPassword">
-					<label id="lblConfirmPassword">Confirm Password:</label>
+					<label id="lblConfirmPassword" style="position: relative; left: -7px;">Confirm Password:</label>
 					<input type="password" id="txtConfirmPassword" v-model="signUpConfirmPassword"/>
+				</div>
+				<div class="divAccessKey">
+					<label id="lblAccessKey">Access Key:</label>
+					<input type="password" id="txtAccessKey" v-model="accessKey"/>
 				</div>
 				<div class="divSignIn">
 					<button id="btnSignUp2" style="width: 70px; height: 30px; background-color: #008cba; color: white;" v-on:click="btnSubmit_click">Submit</button>
