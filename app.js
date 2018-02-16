@@ -51,32 +51,30 @@ app.post('/createaccount', (req, res) => {
 
    var user = items[0];
 
-   if(user){
+   if (err) {
+    return res.status(500).json({message: "Internal Server Error"});
+  }
+
+   if (user) {
      console.log('User already exists');
      return res.status(401).json({message: "User already exists"});
    }
+
+   else  {
+      var user = req.body;
+      user.password = bcrypt.hashSync(req.body.password, req.body.password.length);
+
+      console.log(user);
+
+      User.addUser(user, (err, user) => {
+        if(err){
+          throw err;
+        }
+        return res.status(200).json({message: "Success"});
+        //res.json(user);
+      });
+   }
  });
-
-	var user = req.body;
-  user.password = bcrypt.hashSync(req.body.password, req.body.password.length);
-
-  console.log(user);
-
-//   if(bcrypt.compareSync('qqqqqq', user.password)) {
-//   console.log('Passwords match');
-//   } else {
-//  // Passwords don't match
-//  console.log('NO');
-// }
-
-	User.addUser(user, (err, user) => {
-		if(err){
-			throw err;
-		}
-		res.json(user);
-	});
-
-  return res.status(200).json({message: "Success"});
 
 });
 
@@ -106,23 +104,23 @@ app.post('/login/', function(req, res){
    //collection.find({password: req.body.password}).toArray(function (err, items) {
    collection.find({email: req.body.email}).toArray(function (err, items) {
 
-   var user = items[0];
+       var user = items[0];
 
-   if(!user){
-     console.log('No user');
-     return res.status(401).json({message: "User does not exit"});
-   }
+       if(!user){
+         console.log('No user');
+         return res.status(401).json({message: "User does not exit"});
+       }
 
-  if(bcrypt.compareSync(req.body.password, user.password)) {
-    console.log('Passwords match');
-    return res.status(200).json({message: "Success"});
+      else if(bcrypt.compareSync(req.body.password, user.password)) {
+        console.log('Passwords match');
+        return res.status(200).json({message: "Success"});
 
-  }
-  else if (!bcrypt.compareSync(req.body.password, user.password)){
-  //
-     console.log('Wrong password');
-     return res.status(401).json({message: "Invalid credentials"});
-  }
+      }
+      else if (!bcrypt.compareSync(req.body.password, user.password)){
+      //
+         console.log('Wrong password');
+         return res.status(401).json({message: "Invalid credentials"});
+      }
 
  	});
 
