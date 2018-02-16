@@ -63,6 +63,7 @@
     	</div>
 
 		<transition name="fade">
+				 {{listFiles}}
 				 <div id="divSearch">
 				 	<input type="text" placeholder=" Search" id="txtSearch" v-model="search"/>
 			 	</div>
@@ -92,7 +93,7 @@
 			 	<textarea type="text" id="txtComments" v-model="comments"></textarea>
 			 	<button class="btnSave" v-on:click="btnSave_click">Save</button>
 			 	<button class="btnCancel" v-on:click="btnCancel_click">Cancel</button>
-			 	<button class="btnUpload2" v-on:click="btnUpload2_click">Upload</button>
+			 	<input type="file" class="btnUpload2"  v-on:change="btnUpload2_click($event)">
 			 	<label id="lblTitle2">Title: </label>
 			 	<input type="text" id="txtTitle2" v-model="fileTitle"/>
 			 </div>
