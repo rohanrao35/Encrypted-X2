@@ -87,7 +87,7 @@
 	position: relative;
 	border: 1px solid #cfc7c7;
 	background: #ffffff;
-	width: 700px;
+	width: 800px;
 	height: 275px;
 	margin:40px;
 	padding:10px;
@@ -148,7 +148,7 @@
 .btnSave {
 	position: absolute;
 	left: 610px;
-	top: 82px;
+	top: 132px;
 	height: 25px;
 	width: 65px;
 	background-color: green;
@@ -157,7 +157,7 @@
 .btnCancel {
 	position: absolute;
 	left: 610px;
-	top: 132px;
+	top: 182px;
 	height: 25px;
 	width: 65px;
 	background-color: red;
@@ -165,10 +165,10 @@
 
 .btnUpload2 {
 	position: absolute;
-	left: 610px;
-	top: 182px;
+	left: 300px;
+	top: 222px;
 	height: 25px;
-	width: 65px;
+	width: 350px;
 }
 
 #lblComments {

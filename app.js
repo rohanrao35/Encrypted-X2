@@ -6,6 +6,8 @@ app.use(bodyParser.json());
 //var filepath = require('filepath');
 var fs = require('./test_bucket.js');
 //Connect to mongoose
+//user for mlab: rohanrao35
+//pass for mlab: password1234
 const bcrypt = require('bcrypt');
 //var ObjectId = require('mongodb').ObjectID;
 mongoose.connect('mongodb://rohanrao35:fitracker@ds121588.mlab.com:21588/encryptedx2');
