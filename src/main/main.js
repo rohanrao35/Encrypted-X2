@@ -79,6 +79,15 @@ function body_onload() {
 		 	},
 
 		 	btnSave_click: function () {
+		 		var data = "";
+		 		var fileToLoad = document.getElementById("temp").files[0];
+		 		var fileReader = new FileReader();
+		 		fileReader.readAsText(fileToLoad, "UTF-8");
+			  	fileReader.onload = function(fileLoadedEvent) {
+			      var textFromFileLoaded = fileLoadedEvent.target.result;
+			      data = textFromFileLoaded;
+			      //alert(data);
+
 		 		var query  = location.search.substr(1);
 				var email  = query.substr(query.indexOf("=") + 1);
 
@@ -89,6 +98,7 @@ function body_onload() {
     			info.timeToDelete    = parseInt(this.selected2);
     			info.link            = filepath;
     			info.owner           = email;
+    			info.data            = data;
 
     			var self = this;
 			    fetch(url + "/addfile", {
@@ -118,13 +128,15 @@ function body_onload() {
 			                });
 			            }
 			        }).catch(function(err) {
+			        	alert(data);
 			            alert(err.message);
 			    }); 
 		 		//this.showUpload = false;
+		 	}
 		 	},
 
 		 	btnUpload2_click: function (event) {
-		 		//alert(event.target.files[0]);
+		 		//alert(event.target.value);
 		 		filepath = URL.createObjectURL(event.target.files[0]);
 		 		//alert(url);
 		 	},

@@ -93,7 +93,7 @@
 			 	<textarea type="text" id="txtComments" v-model="comments"></textarea>
 			 	<button class="btnSave" v-on:click="btnSave_click">Save</button>
 			 	<button class="btnCancel" v-on:click="btnCancel_click">Cancel</button>
-			 	<input type="file" class="btnUpload2"  v-on:change="btnUpload2_click($event)">
+			 	<input type="file" class="btnUpload2"  v-on:change="btnUpload2_click($event)" id="temp">
 			 	<label id="lblTitle2">Title: </label>
 			 	<input type="text" id="txtTitle2" v-model="fileTitle"/>
 			 </div>
