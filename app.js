@@ -2,9 +2,10 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var AWS = require('aws-sdk');
 app.use(bodyParser.json());
 //var filepath = require('filepath');
-var fs = require('./test_bucket.js');
+//var cloud = require('./test_bucket.js');
 //Connect to mongoose
 //user for mlab: rohanrao35
 //pass for mlab: password1234
@@ -160,22 +161,19 @@ app.delete('/api/files/:_link', (req, res) => {
 
 
 app.post('/addfile', (req, res) => {
-	//var file = req.body;
-  //user.password = bcrypt.hashSync(req.body.password, req.body.password.length);
-
-
-  // fs.readFile("Hello.txt", (err, _link) => {
-  //
-  //   if(err){
-  //     throw err;
-  //   }
-  //   res.json("Hello.txt");
-  // });
-
-  upload();
-
-  //console.log(file);
-
+  var file = req.body;
+  AWS.config.update({ accessKeyId: 'AKIAJBABBDRIN2EUE4XQ', secretAccessKey: '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' });
+  var base64data = new Buffer(req.body.data, 'binary');
+  var s3 = new AWS.S3();
+    s3.putObject({
+    Bucket: 'encryptedx2_content',
+    Key: 'helloworld4',
+    Body: base64data,
+          ACL: 'public-read'
+    },function (resp) {
+      console.log(arguments);
+      console.log('Successfully uploaded package.');
+    });
 	Files.addFile(file, (err, file) => {
 		if(err){
 			throw err;

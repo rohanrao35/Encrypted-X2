@@ -42,7 +42,7 @@ function body_onload() {
 		 	 date: "",
 		 	 title: "",
 		 	 comments: "",
-		 	 files:  [{url: 96, date: "02/02/2018", title: "Test4", comments: "comments hjsembfjwsbdvjksbvdkjbvszkdbvk cakezdjbkzbvdz"}, {url: 97, date: "02/02/2018", title: "Test3", comments: "comments hjsembfjwsbdvjksbvdkjbvszkdbvk cakezdjbkzbvdz"}, {url: 98, date: "02/02/2018", title: "Test2", comments: "comments hjsembfjwsbdvjksbvdkjbvszkdbvk cakezdjbkzbvdz"}, {url: 99, date: "01/02/2018", title: "Test1", comments: "comments hjsembfjwsbdvjksbvdkjbvszkdbvk cakezdjbkzbvdz"}],	 
+		 	 files:  [{url: 96, date: "02/02/2018", title: "Test4", comments: "comments hjsembfjwsbdvjksbvdkjbvszkdbvk cakezdjbkzbvdz"}, {url: 97, date: "02/02/2018", title: "Test3", comments: "comments hjsembfjwsbdvjksbvdkjbvszkdbvk cakezdjbkzbvdz"}, {url: 98, date: "02/02/2018", title: "Test2", comments: "comments hjsembfjwsbdvjksbvdkjbvszkdbvk cakezdjbkzbvdz"}, {url: 99, date: "01/02/2018", title: "Test1", comments: "comments hjsembfjwsbdvjksbvdkjbvszkdbvk cakezdjbkzbvdz"}],
  		 },
 
  		 computed: {
@@ -67,7 +67,7 @@ function body_onload() {
 
 		 methods: {
 		 	btnUpload1_click: function () {
-		 		this.showUpload = true; 
+		 		this.showUpload = true;
 		 	},
 
 		 	btnLogout_click: function () {
@@ -79,6 +79,7 @@ function body_onload() {
 		 	},
 
 		 	btnSave_click: function () {
+				var self = this;
 		 		var data = "";
 		 		var fileToLoad = document.getElementById("temp").files[0];
 		 		var fileReader = new FileReader();
@@ -91,16 +92,16 @@ function body_onload() {
 		 		var query  = location.search.substr(1);
 				var email  = query.substr(query.indexOf("=") + 1);
 
-		 		var info             = new Object();
-		 		info.title           = this.fileTitle;
-		 		info.comments        = this.comments;
+			 		var info             = new Object();
+			 		info.title           = self.fileTitle;
+			 		info.comments        = self.comments;
     			info.timeoutOption   = parseInt(this.selected1);
     			info.timeToDelete    = parseInt(this.selected2);
     			info.link            = filepath;
     			info.owner           = email;
     			info.data            = data;
 
-    			var self = this;
+
 			    fetch(url + "/addfile", {
 			        method: "POST",
 			        headers: {
@@ -117,7 +118,8 @@ function body_onload() {
 			                	file.title    = info.title;
 			                	file.comments = info.comments;
 			                	file.date     = data.date;
-			                	
+												alert(file.title);
+												alert(info.title);
 			                	self.showUpload = false;
 			                	self.files.push(file);
 			                });
@@ -130,7 +132,7 @@ function body_onload() {
 			        }).catch(function(err) {
 			        	alert(data);
 			            alert(err.message);
-			    }); 
+			    });
 		 		//this.showUpload = false;
 		 	}
 		 	},
@@ -149,7 +151,7 @@ function body_onload() {
 						//this.showConfirm = false;
 					 	return;
 					}
-	 			}	
+	 			}
 		 	}
 		},
 	});
