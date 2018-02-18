@@ -3,6 +3,8 @@ var app = express();
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 app.use(bodyParser.json());
+//var filepath = require('filepath');
+var fs = require('./test_bucket.js');
 //Connect to mongoose
 const bcrypt = require('bcrypt');
 //var ObjectId = require('mongodb').ObjectID;
@@ -25,14 +27,14 @@ app.get('/', function(req, res){
 
 
 
-
 app.listen(3000);
 
 
 
 
 app.get('/users', function(req, res){
-
+  //var path = filepath.create('jsmn.gcda');
+  console.log(path);
   User.getUsers(function(err, users){
       if(err){
         throw err;
@@ -156,10 +158,21 @@ app.delete('/api/files/:_link', (req, res) => {
 
 
 app.post('/addfile', (req, res) => {
-	var file = req.body;
+	//var file = req.body;
   //user.password = bcrypt.hashSync(req.body.password, req.body.password.length);
 
-  console.log(file);
+
+  // fs.readFile("Hello.txt", (err, _link) => {
+  //
+  //   if(err){
+  //     throw err;
+  //   }
+  //   res.json("Hello.txt");
+  // });
+
+  upload();
+
+  //console.log(file);
 
 	Files.addFile(file, (err, file) => {
 		if(err){
