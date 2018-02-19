@@ -162,7 +162,7 @@ app.delete('/api/files/:_link', (req, res) => {
 
 app.post('/addfile', (req, res) => {
   var file = req.body;
-  AWS.config.update({ accessKeyId: 'AKIAJBABBDRIN2EUE4XQ', secretAccessKey: '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' });
+  //aws.config.update
   var base64data = new Buffer(req.body.data, 'binary');
   var s3 = new AWS.S3();
     s3.putObject({
