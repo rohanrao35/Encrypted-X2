@@ -2,6 +2,8 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var passport = require('passport');
+var passport = require('./config/passport.js');
 app.use(bodyParser.json());
 //Connect to mongoose
 const bcrypt = require('bcrypt');
@@ -28,8 +30,22 @@ app.get('/', function(req, res){
 
 app.listen(3000);
 
+/* Google Code */
 
+app.get('/auth/google',
+  passport.authenticate('google', { scope:
+  	[ 'https://www.googleapis.com/auth/plus.login',
+  	, 'https://www.googleapis.com/auth/plus.profile.emails.read' ] }
+));
 
+app.get( '/auth/google/callback',
+    passport.authenticate( 'google', {
+    function(req, res) {
+        res.redirect('http://localhost:3000/'); // Link to go whne log in is successfull.
+      }
+}));
+
+/* Google Code */
 
 app.get('/users', function(req, res){
 
@@ -169,6 +185,15 @@ app.post('/addfile', (req, res) => {
 	});
 });
 
+function isLoggedIn(req, res, next) {
+
+    // if user is authenticated in the session, carry on
+    if (req.isAuthenticated())
+        return next();
+
+    // if they aren't redirect them to the home page
+    res.redirect('/');
+}
 
 
 
