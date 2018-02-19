@@ -2,10 +2,18 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+<<<<<<< HEAD
 var passport = require('passport');
 var passport = require('./config/passport.js');
+=======
+var AWS = require('aws-sdk');
+>>>>>>> 390935765f672cc5a6b242ebf5ae3d566cda7ca1
 app.use(bodyParser.json());
+//var filepath = require('filepath');
+//var cloud = require('./test_bucket.js');
 //Connect to mongoose
+//user for mlab: rohanrao35
+//pass for mlab: password1234
 const bcrypt = require('bcrypt');
 //var ObjectId = require('mongodb').ObjectID;
 mongoose.connect('mongodb://rohanrao35:fitracker@ds121588.mlab.com:21588/encryptedx2');
@@ -24,7 +32,6 @@ Files =require('./models/file');
 app.get('/', function(req, res){
   res.send('Hello ');
 });
-
 
 
 
@@ -48,7 +55,8 @@ app.get( '/auth/google/callback',
 /* Google Code */
 
 app.get('/users', function(req, res){
-
+  //var path = filepath.create('jsmn.gcda');
+  console.log(path);
   User.getUsers(function(err, users){
       if(err){
         throw err;
@@ -172,11 +180,19 @@ app.delete('/api/files/:_link', (req, res) => {
 
 
 app.post('/addfile', (req, res) => {
-	var file = req.body;
-  //user.password = bcrypt.hashSync(req.body.password, req.body.password.length);
-
-  console.log(file);
-
+  var file = req.body;
+  //aws.config.update
+  var base64data = new Buffer(req.body.data, 'binary');
+  var s3 = new AWS.S3();
+    s3.putObject({
+    Bucket: 'encryptedx2_content',
+    Key: 'helloworld4',
+    Body: base64data,
+          ACL: 'public-read'
+    },function (resp) {
+      console.log(arguments);
+      console.log('Successfully uploaded package.');
+    });
 	Files.addFile(file, (err, file) => {
 		if(err){
 			throw err;
