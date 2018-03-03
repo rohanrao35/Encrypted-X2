@@ -2,12 +2,12 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-<<<<<<< HEAD
-var passport = require('passport');
-var passport = require('./config/passport.js');
-=======
+//<<<<<<< HEAD
+//var passport = require('passport');
+//var passport = require('./config/passport.js');
+//=======
 var AWS = require('aws-sdk');
->>>>>>> 390935765f672cc5a6b242ebf5ae3d566cda7ca1
+//>>>>>>> 390935765f672cc5a6b242ebf5ae3d566cda7ca1
 app.use(bodyParser.json());
 //var filepath = require('filepath');
 //var cloud = require('./test_bucket.js');
@@ -38,7 +38,7 @@ app.get('/', function(req, res){
 app.listen(3000);
 
 /* Google Code */
-
+/*
 app.get('/auth/google',
   passport.authenticate('google', { scope:
   	[ 'https://www.googleapis.com/auth/plus.login',
@@ -51,7 +51,7 @@ app.get( '/auth/google/callback',
         res.redirect('http://localhost:3000/'); // Link to go whne log in is successfull.
       }
 }));
-
+*/
 /* Google Code */
 
 app.get('/users', function(req, res){
@@ -181,7 +181,14 @@ app.delete('/api/files/:_link', (req, res) => {
 
 app.post('/addfile', (req, res) => {
   var file = req.body;
-  //aws.config.update
+  var a = 'AKIAJIWL4ZC';
+  var b = '3S26DRGPQ';
+  var c = 'GRna0iPyNPBG5FTsIOUeD';
+  var d = 'CsmkVQ8A1q2oL+RWddc';
+  var ab = a + b;
+  var cd = c + d;
+  AWS.config.update({ accessKeyId: ab, secretAccessKey: cd });
+
   var base64data = new Buffer(req.body.data, 'binary');
   var s3 = new AWS.S3();
     s3.putObject({
