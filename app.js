@@ -190,6 +190,47 @@ app.get('/files', function(req, res){
   });
 });
 
+
+// 
+//
+// app.post('/share', function(req, res){
+//   //console.log(req.body.email);
+//
+//   //Need to pass the url of the file to share and the email address of the person to share with
+//
+//
+//   var shareTo = req.body.shareTo;
+//
+//   var collection = db.collection('files');
+//   var collection2 = db.collection('users');
+//
+//    collection.find({link: req.body.url}).toArray(function (err, items) {
+//
+//      var file = items[0];
+//      var len = file.usersShared.length;
+//      if(file){
+//        collection.updateOne({link: req.body.url}, {$set:{usersShared[len]: shareTo}});
+//      }
+//      else{
+//        ////return error
+//      }
+//      collection2.find({email: shareTo}).toArray(function (err, items2) {
+//        var user = items2[0];
+//        var len2 = user.sharedWithMe.length;
+//        if(user){
+//          collection.updateOne({email: shareTo}, {$set:{sharedWithMe[len2]: req.body.url}});
+//        }
+//        else{
+//          ////return error
+//        }
+//      });
+//  	 });
+//
+// });
+
+
+
+
 app.delete('/api/files/:_link', (req, res) => {
 	var _link = req.params._link;
   //id = "5a7a4e9c52e1bf1e8c1c4076";
