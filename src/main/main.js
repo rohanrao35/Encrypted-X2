@@ -2,6 +2,8 @@
 
 var url  = "http://localhost:3000"
 var auth = ""
+var filepath = ""
+var gFiles = [{url: 96, date: "02/02/2018", title: "Test4", comments: "comments hjsembfjwsbdvjksbvdkjbvszkdbvk cakezdjbkzbvdz"}, {url: 97, date: "02/02/2018", title: "Test3", comments: "comments hjsembfjwsbdvjksbvdkjbvszkdbvk cakezdjbkzbvdz"}, {url: 98, date: "02/02/2018", title: "Test2", comments: "comments hjsembfjwsbdvjksbvdkjbvszkdbvk cakezdjbkzbvdz"}, {url: 99, date: "01/02/2018", title: "Test1", comments: "comments hjsembfjwsbdvjksbvdkjbvszkdbvk cakezdjbkzbvdz"}]
 
 function body_onload() {
 	Vue.component("file-box", {
@@ -40,20 +42,32 @@ function body_onload() {
 		 	 date: "",
 		 	 title: "",
 		 	 comments: "",
-		 	 files:  [{url: 96, date: "02/02/2018", title: "Test4", comments: "comments hjsembfjwsbdvjksbvdkjbvszkdbvk cakezdjbkzbvdz"}, {url: 97, date: "02/02/2018", title: "Test3", comments: "comments hjsembfjwsbdvjksbvdkjbvszkdbvk cakezdjbkzbvdz"}, {url: 98, date: "02/02/2018", title: "Test2", comments: "comments hjsembfjwsbdvjksbvdkjbvszkdbvk cakezdjbkzbvdz"}, {url: 99, date: "01/02/2018", title: "Test1", comments: "comments hjsembfjwsbdvjksbvdkjbvszkdbvk cakezdjbkzbvdz"}],	 
+		 	 files:  [{url: 96, date: "02/02/2018", title: "Test4", comments: "comments hjsembfjwsbdvjksbvdkjbvszkdbvk cakezdjbkzbvdz"}, {url: 97, date: "02/02/2018", title: "Test3", comments: "comments hjsembfjwsbdvjksbvdkjbvszkdbvk cakezdjbkzbvdz"}, {url: 98, date: "02/02/2018", title: "Test2", comments: "comments hjsembfjwsbdvjksbvdkjbvszkdbvk cakezdjbkzbvdz"}, {url: 99, date: "01/02/2018", title: "Test1", comments: "comments hjsembfjwsbdvjksbvdkjbvszkdbvk cakezdjbkzbvdz"}],
  		 },
 
  		 computed: {
  		 	listFiles: function() {
- 		 		if (this.search != "") {
- 		 			var temp = this.files;
+ 		 		if (this.search == "") {
+ 		 			this.files = gFiles;
+ 		 			return this.files;
+ 		 		}
+ 		 		else {
+ 		 			var temp = new Array();
+ 		 			for (var i = 0; i < this.files.length; i++) {
+ 		 				if (this.files[i].title.toLowerCase().includes(this.search.toLowerCase())) {
+ 		 					temp.push(this.files[i]);
+ 		 				}
+ 		 			}
+
+ 		 			this.files = temp;
+ 		 			return this.files;
  		 		}
  		 	}
  		 },
 
 		 methods: {
 		 	btnUpload1_click: function () {
-		 		this.showUpload = true; 
+		 		this.showUpload = true;
 		 	},
 
 		 	btnLogout_click: function () {
@@ -65,22 +79,29 @@ function body_onload() {
 		 	},
 
 		 	btnSave_click: function () {
-		 		this.showUpload = false;
-		 	},
+				var self = this;
+		 		var data = "";
+		 		var fileToLoad = document.getElementById("temp").files[0];
+		 		var fileReader = new FileReader();
+		 		fileReader.readAsText(fileToLoad, "UTF-8");
+			  	fileReader.onload = function(fileLoadedEvent) {
+			      var textFromFileLoaded = fileLoadedEvent.target.result;
+			      data = textFromFileLoaded;
+			      //alert(data);
 
-		 	btnUpload2_click: function () {
 		 		var query  = location.search.substr(1);
-				var email  = parseInt(query.substr(query.indexOf("=") + 1));
+				var email  = query.substr(query.indexOf("=") + 1);
 
-		 		var info             = new Object();
-		 		info.title           = this.title;
-		 		info.comments        = this.comments;
-    			info.timeoutOption   = this.selected1;
-    			info.timeToDelete    = this.selected2;
-    			info.link            = "link1";
-    			info.owner           =  email;
+			 		var info             = new Object();
+			 		info.title           = self.fileTitle;
+			 		info.comments        = self.comments;
+    			info.timeoutOption   = parseInt(this.selected1);
+    			info.timeToDelete    = parseInt(this.selected2);
+    			info.link            = filepath;
+    			info.owner           = email;
+    			info.data            = data;
 
-    			var self = this;
+
 			    fetch(url + "/addfile", {
 			        method: "POST",
 			        headers: {
@@ -93,11 +114,12 @@ function body_onload() {
 			                	// auth = data.authtoken;
 			                	//localStorage.setItem("authToken", data.authtoken);
 			                	var file      = new Object();
-			                	file.url      = info.url;
+			                	file.url      = info.link;
 			                	file.title    = info.title;
 			                	file.comments = info.comments;
 			                	file.date     = data.date;
-			                	
+												alert(file.title);
+												alert(info.title);
 			                	self.showUpload = false;
 			                	self.files.push(file);
 			                });
@@ -108,8 +130,17 @@ function body_onload() {
 			                });
 			            }
 			        }).catch(function(err) {
+			        	alert(data);
 			            alert(err.message);
-			    }); 
+			    });
+		 		//this.showUpload = false;
+		 	}
+		 	},
+
+		 	btnUpload2_click: function (event) {
+		 		//alert(event.target.value);
+		 		filepath = URL.createObjectURL(event.target.files[0]);
+		 		//alert(url);
 		 	},
 
 		 	fileDelete: function(url) {
@@ -120,7 +151,7 @@ function body_onload() {
 						//this.showConfirm = false;
 					 	return;
 					}
-	 			}	
+	 			}
 		 	}
 		},
 	});
