@@ -250,6 +250,36 @@ console.log(encryptedString);  // e74d7c0de21e72aaffc8f2eef2bdb7c1
 	});
 });
 
+app.post('/post-image', function(req, res, next){
+
+  res.connection.setTimeout(0); // this could take a while
+  var Uploader = require('s3-image-uploader');
+  var uploader = new Uploader({
+    aws : {
+      key : process.env.NODE_AWS_KEY,
+      secret : process.env.NODE_AWS_SECRET
+    },
+    websocketServer : false
+  });
+
+  uploader.upload({
+    fileId : 'asian_bldg',
+    bucket : 'encryptedx2_content',
+    source : './asian_bldg.jpeg',
+    name : 'asian_bldg.jpeg'
+  },
+  function(data){ // success
+    console.log('upload success:', data);
+    // execute success code
+  },
+  function(errMsg, errObject){ //error
+    console.error('unable to upload: ' + errMsg + ':', errObject);
+    // execute error code
+  });
+
+});
+
+
 function isLoggedIn(req, res, next) {
 
     // if user is authenticated in the session, carry on
