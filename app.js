@@ -102,6 +102,29 @@ app.post('/createaccount', (req, res) => {
 
 });
 
+app.post('/editaccount', (req, res) => {
+
+  var collection = db.collection('users');
+
+    collection.find({email: req.body.email}).toArray(function (err, items) {
+    var user = items[0];
+    console.log(user);
+    console.log(user.password);
+    user.password = bcrypt.hashSync(req.body.password, req.body.password.length);
+    console.log(user.password);
+    collection.updateOne({email: req.body.email}, {$set:{password: user.password}});
+
+    return res.status(200).json({message: "Success"});
+  });
+
+});
+
+
+
+
+
+
+
 app.delete('/api/users/:_email', (req, res) => {
 	var _email = req.params._email;
   //id = "5a7a4e9c52e1bf1e8c1c4076";
@@ -180,7 +203,46 @@ app.delete('/api/files/:_link', (req, res) => {
 
 
 app.post('/addfile', (req, res) => {
+
   var file = req.body;
+  var encryptor = require('file-encryptor');
+  var key = 'Encrypted';
+
+  // // Encrypt file.
+  // encryptor.encryptFile('Hello.txt', 'Hello.crypt', key, {algorithim: 'aes256'}, function(err) {
+  //   // Encryption complete.
+  // });
+  //
+  // encryptor.decryptFile('Hello.crypt', 'output.txt', key, {algorithim: 'aes256'},  function(err) {
+  // // Decryption complete.
+  // });
+
+  // var key = 'My Super Secret Key';
+  // var options = { algorithm: 'aes256' };
+  //
+  // encryptor.encryptFile('Hello.txt', 'encrypted.dat', key, options, function(err) {
+  //   // Decryption complete;
+  // });
+  //
+  //
+  //
+  // encryptor.decryptFile('encrypted.dat', 'outputfile.txt', key, options, function(err) {
+  //   // Encryption complete;
+  // });
+
+
+  var Cryptr = require('cryptr'),
+    cryptr = new Cryptr('myTotalySecretKey');
+
+
+var encryptedString = cryptr.encrypt(req.body.data);
+//var decryptedString = cryptr.decrypt(encryptedString);
+
+console.log(req.body.data);
+console.log(encryptedString);  // e74d7c0de21e72aaffc8f2eef2bdb7c1
+//console.log(decryptedString);
+
+
   var a = 'AKIAJIWL4ZC';
   var b = '3S26DRGPQ';
   var c = 'GRna0iPyNPBG5FTsIOUeD';
@@ -189,11 +251,11 @@ app.post('/addfile', (req, res) => {
   var cd = c + d;
   AWS.config.update({ accessKeyId: ab, secretAccessKey: cd });
 
-  var base64data = new Buffer(req.body.data, 'binary');
+  var base64data = new Buffer(encryptedString, 'binary');
   var s3 = new AWS.S3();
     s3.putObject({
     Bucket: 'encryptedx2_content',
-    Key: 'helloworld4',
+    Key: 'Encrypted',
     Body: base64data,
           ACL: 'public-read'
     },function (resp) {
@@ -218,6 +280,16 @@ function isLoggedIn(req, res, next) {
     res.redirect('/');
 }
 
+
+
+
+
+
+
+// Decrypt file.
+//encryptor.decryptFile('encrypted.dat', 'output_file.txt', key, function(err) {
+  // Decryption complete.
+//});
 
 
 module.exports = app;
