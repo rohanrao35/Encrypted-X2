@@ -2,6 +2,7 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var randomstring = require("randomstring");
 //<<<<<<< HEAD
 //var passport = require('passport');
 //var passport = require('./config/passport.js');
@@ -208,27 +209,6 @@ app.post('/addfile', (req, res) => {
   var encryptor = require('file-encryptor');
   var key = 'Encrypted';
 
-  // // Encrypt file.
-  // encryptor.encryptFile('Hello.txt', 'Hello.crypt', key, {algorithim: 'aes256'}, function(err) {
-  //   // Encryption complete.
-  // });
-  //
-  // encryptor.decryptFile('Hello.crypt', 'output.txt', key, {algorithim: 'aes256'},  function(err) {
-  // // Decryption complete.
-  // });
-
-  // var key = 'My Super Secret Key';
-  // var options = { algorithm: 'aes256' };
-  //
-  // encryptor.encryptFile('Hello.txt', 'encrypted.dat', key, options, function(err) {
-  //   // Decryption complete;
-  // });
-  //
-  //
-  //
-  // encryptor.decryptFile('encrypted.dat', 'outputfile.txt', key, options, function(err) {
-  //   // Encryption complete;
-  // });
 
 
   var Cryptr = require('cryptr'),
@@ -255,7 +235,7 @@ console.log(encryptedString);  // e74d7c0de21e72aaffc8f2eef2bdb7c1
   var s3 = new AWS.S3();
     s3.putObject({
     Bucket: 'encryptedx2_content',
-    Key: 'Encrypted',
+    Key: randomstring.generate(7),
     Body: base64data,
           ACL: 'public-read'
     },function (resp) {
