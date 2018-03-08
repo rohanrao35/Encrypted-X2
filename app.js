@@ -298,7 +298,8 @@ console.log(encryptedString);  // e74d7c0de21e72aaffc8f2eef2bdb7c1
 		if(err){
 			throw err;
 		}
-		res.json(file);
+		//res.json(file);
+    
 	});
 
   return res.status(200).json({link: file.link});

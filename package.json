@@ -7,10 +7,14 @@
     "test": "node_modules/mocha/bin/mocha ./tests"
   },
   "dependencies": {
+    "aws-sdk": "^2.206.0",
     "bcrypt": "^1.0.3",
     "body-parser": "*",
+    "cryptr": "^3.0.0",
     "express": "*",
-    "mongoose": "*"
+    "file-encryptor": "^0.1.1",
+    "mongoose": "*",
+    "randomstring": "^1.1.5"
   },
   "author": "",
   "license": "ISC",
