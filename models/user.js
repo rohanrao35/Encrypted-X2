@@ -10,9 +10,9 @@ var UserSchema = new mongoose.Schema({
   securityQuestion: String,
   securityAnswer: String,
   files: Array,
-  sharedWith: Array,
-  sharing: Array
+  sharedWithMe: Array
 });
+
 
 
 const UserModel = mongoose.model('User', UserSchema);

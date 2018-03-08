@@ -190,8 +190,57 @@ app.get('/files', function(req, res){
   });
 });
 
-app.delete('/api/files/:_link', (req, res) => {
-	var _link = req.params._link;
+
+//
+//
+
+app.post('/share', function(req, res){
+  //console.log(req.body.email);
+
+  //Need to pass the url of the file to share and the email address of the person to share with
+
+
+  var shareTo = req.body.shareTo;
+
+  var collection = db.collection('files');
+  var collection2 = db.collection('users');
+
+   collection.find({link: req.body.url}).toArray(function (err, items) {
+
+     var file = items[0];
+     var len = file.usersShared.length;
+     if(file){
+       collection.updateOne({link: req.body.url}, { $push: { usersShared: shareTo} });
+       // collection.updateOne({link: req.body.url}, {$set:{usersShared[len]: shareTo}});
+     }
+     else{
+       ////return error
+       return res.status(401).json({message: "No file"});
+
+     }
+     collection2.find({email: shareTo}).toArray(function (err, items2) {
+       var user = items2[0];
+       var len2 = user.sharedWithMe.length;
+       if(user){
+        // collection2.updateOne({email: shareTo}, {$set:{sharedWithMe.$[len2]: req.body.url}});
+        collection2.updateOne({email: shareTo},  { $push: { sharedWithMe: req.body.url} });
+        return res.status(200).json({message: "Success"});
+
+       }
+       else{
+         ////return error
+         return res.status(401).json({message: "No user"});
+
+       }
+     });
+ 	 });
+
+});
+
+
+
+app.delete('/api/files', (req, res) => {
+	var _link = req.body._link;
   //id = "5a7a4e9c52e1bf1e8c1c4076";
 	Files.removeFile(_link, (err, _link) => {
 		if(err){
@@ -233,9 +282,12 @@ console.log(encryptedString);  // e74d7c0de21e72aaffc8f2eef2bdb7c1
 
   var base64data = new Buffer(encryptedString, 'binary');
   var s3 = new AWS.S3();
+  https://s3.amazonaws.com/encryptedx2_content/test2.txt
+  var rand = randomstring.generate(7);
+  file.link = 'https://s3.amazonaws.com/encryptedx2_content/' + rand;
     s3.putObject({
     Bucket: 'encryptedx2_content',
-    Key: randomstring.generate(7),
+    Key: rand,
     Body: base64data,
           ACL: 'public-read'
     },function (resp) {
@@ -246,9 +298,14 @@ console.log(encryptedString);  // e74d7c0de21e72aaffc8f2eef2bdb7c1
 		if(err){
 			throw err;
 		}
-		res.json(file);
+		//res.json(file);
+    
 	});
+
+  return res.status(200).json({link: file.link});
+
 });
+
 
 function isLoggedIn(req, res, next) {
 
