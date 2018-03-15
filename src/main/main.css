@@ -94,6 +94,17 @@
 	box-shadow:0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
 }
 
+.divUpload2 {
+	position: relative;
+	border: 1px solid #cfc7c7;
+	background: #ffffff;
+	width: 800px;
+	height: 375px;
+	margin:40px;
+	padding:10px;
+	box-shadow:0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
 #lblUpload {
 	position: absolute;
 	left: -100px;
@@ -185,6 +196,17 @@
 	position: absolute;
 	left: 97px;
 	top: 132px;
+	width: 500px;
+	height: 80px;
+	text-align: left;
+	font-family: Sans-Serif;
+	font-size: 18px;
+}
+
+#txtFile {
+	position: absolute;
+	left: 97px;
+	top: 272px;
 	width: 500px;
 	height: 80px;
 	text-align: left;

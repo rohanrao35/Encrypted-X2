@@ -58,12 +58,14 @@
     			<button class="w3-display" style="float: right; width: 70px; height: 30px; background-color: #008cba; color: white;" v-on:click="btnLogout_click">Logout</button>
     		</div>
     		<div class="w3-display" style="float: right; padding-top: 5px; padding-right: 5px;">
+    			<button class="w3-display" style="float: right; width: 70px; height: 30px; background-color: #008cba; color: white;" >New File</button>
+    		</div>
+    		<div class="w3-display" style="float: right; padding-top: 5px; padding-right: 5px;">
     			<button class="w3-display" style="float: right; width: 70px; height: 30px; background-color: #008cba; color: white;" v-on:click="btnUpload1_click">Upload</button>
     		</div>
     	</div>
 
-		<transition name="fade">
-				 {{listFiles}}
+		<transition name="fade"> {{listFiles}}
 				 <div id="divSearch">
 				 	<input type="text" placeholder=" Search" id="txtSearch" v-model="search"/>
 			 	</div>
@@ -94,6 +96,36 @@
 			 	<button class="btnSave" v-on:click="btnSave_click">Save</button>
 			 	<button class="btnCancel" v-on:click="btnCancel_click">Cancel</button>
 			 	<input type="file" class="btnUpload2"  v-on:change="btnUpload2_click($event)" id="temp">
+			 	<label id="lblTitle2">Title: </label>
+			 	<input type="text" id="txtTitle2" v-model="fileTitle"/>
+			 </div>
+		</transition>
+
+		<transition name="fade">
+			<div class="divUpload2" v-show="!showUpload">
+			 	<label id="lblUpload">Upload File</label>
+			 	<label id="lblViewTime">View Time:</label>
+			 	<label id="lblComments">Comments:</label>
+			 	<label id="lblDelete">Auto Delete Time:</label>
+
+			 	<select id="txtViewTime" v-model="selected1">
+			 		<option selected="true" disabled="disabled">select</option>
+			 		<option>5 minutes</option>
+			 		<option>30 minutes</option>
+			 		<option> 1 hour</option>
+			 	</select> 
+
+			 	<select id="txtDeleteTime" v-model="selected2">
+			 		<option selected="true" disabled="disabled">select</option>
+			 		<option>1 week</option>
+			 		<option>1 month</option>
+			 		<option>1 year</option>
+			 	</select>  
+			 	
+			 	<textarea type="text" id="txtComments" v-model="comments"></textarea>
+			 	<button class="btnSave" v-on:click="btnSave_click2">Save</button>
+			 	<button class="btnCancel" v-on:click="btnCancel_click">Cancel</button>
+			 	<textarea type="text" id="txtFile" placeholder="Enter the text to save here."></textarea>
 			 	<label id="lblTitle2">Title: </label>
 			 	<input type="text" id="txtTitle2" v-model="fileTitle"/>
 			 </div>
