@@ -192,8 +192,33 @@ app.get('/files', function(req, res){
 
 
 //
-//
+///////////////////////////////////ADDED
+app.post('/shareRequest', function(req, res){
+  //console.log(req.body.email);
 
+  //Need to pass the url of the file to share and the email address of the person to share with
+  var shareTo = req.body.shareTo;
+
+
+  var collection = db.collection('users');
+  collection.find({email: shareTo}).toArray(function (err, items2) {
+    var user = items2[0];
+    var len2 = user.sharedWithMe.length;
+    if(user){
+     // collection2.updateOne({email: shareTo}, {$set:{sharedWithMe.$[len2]: req.body.url}});
+     collection.updateOne({email: shareTo},  { $push: { sharedRequests: req.body.url} });
+     return res.status(200).json({message: "Success"});
+
+    }
+    else{
+      ////return error
+      return res.status(401).json({message: "No user"});
+
+    }
+  });
+});
+
+/////////////////////////////////////////////
 app.post('/share', function(req, res){
   //console.log(req.body.email);
 
@@ -224,8 +249,16 @@ app.post('/share', function(req, res){
        if(user){
         // collection2.updateOne({email: shareTo}, {$set:{sharedWithMe.$[len2]: req.body.url}});
         collection2.updateOne({email: shareTo},  { $push: { sharedWithMe: req.body.url} });
-        return res.status(200).json({message: "Success"});
-
+/////////////////////////////ADDED
+        Files.removeFileRequest(_link, (err, _link) => {
+      		if(err){
+      			throw err;
+      		}
+      		//res.json(_link);
+          return res.status(200).json({message: "Success"});
+      	});
+        //sreturn res.status(200).json({message: "Success"});
+///////////////////////////////////////
        }
        else{
          ////return error

@@ -10,7 +10,10 @@ var UserSchema = new mongoose.Schema({
   securityQuestion: String,
   securityAnswer: String,
   files: Array,
-  sharedWithMe: Array
+  sharedWithMe: Array,
+  /////////////ADDED
+  shareRequests: Array
+  ///////////////////
 });
 
 
