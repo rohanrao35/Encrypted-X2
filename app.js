@@ -219,7 +219,7 @@ app.post('/shareRequest', function(req, res){
 });
 
 /////////////////////////////////////////////
-app.post('/share', function(req, res){
+app.post('/shareAccept', function(req, res){
   //console.log(req.body.email);
 
   //Need to pass the url of the file to share and the email address of the person to share with
@@ -250,6 +250,7 @@ app.post('/share', function(req, res){
         // collection2.updateOne({email: shareTo}, {$set:{sharedWithMe.$[len2]: req.body.url}});
         collection2.updateOne({email: shareTo},  { $push: { sharedWithMe: req.body.url} });
 /////////////////////////////ADDED
+        var _link = req.body.url;
         Files.removeFileRequest(_link, (err, _link) => {
       		if(err){
       			throw err;
@@ -271,6 +272,31 @@ app.post('/share', function(req, res){
 });
 
 
+///////////////////////////////ADDED
+app.post('/shareDeny', function(req, res){
+  //console.log(req.body.email);
+
+  //Need to pass the url of the file to share and the email address of the person to share with
+  collection.find({email: shareTo}).toArray(function (err, items) {
+    var user = items[0];
+    var len = user.sharedWithMe.length;
+    if(user){
+      var _link = req.body.url;
+     Files.removeFileRequest(_link, (err, _link) => {
+       if(err){
+         throw err;
+       }
+       return res.status(200).json({message: "Success"});
+     });
+
+    }
+    else{
+      ////return error
+      return res.status(401).json({message: "No user"});
+    }
+  });
+});
+///////////////////////////////
 
 app.delete('/api/files', (req, res) => {
 	var _link = req.body._link;
