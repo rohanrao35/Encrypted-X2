@@ -8,7 +8,7 @@ var gFiles = [{url: 96, date: "02/02/2018", title: "Test4", comments: "comments 
 function body_onload() {
 	Vue.component("file-box", {
 		 template: "#file-box-template",
-		 props: ["url", "date", "title", "comments"],
+		 props: ["link", "date", "title", "comments"],
 		 data: function() {
 		 	return { showComments: false, showConfirm: false}
 	 	 },
@@ -19,7 +19,7 @@ function body_onload() {
 			 },
 
 			 btnYes_click: function () {
-			 	this.$parent.fileDelete(this.url);
+			 	this.$parent.fileDelete(this.link);
 			 	this.showConfirm = false;
 			 },
 
@@ -57,7 +57,6 @@ function body_onload() {
  					}).then(function(res) {
  				            if (res.ok) {
  				                res.json().then(function(data) {
- 				                	alert(JSON.stringify(data[1]))
  				 		 			self.files = data
  				                });
  				            }
@@ -130,12 +129,11 @@ function body_onload() {
 		 		var query  = location.search.substr(1);
 				var email  = query.substr(query.indexOf("=") + 1);
 
-			 		var info             = new Object();
-			 		info.title           = self.fileTitle;
-			 		info.comments        = self.comments;
+		 		var info             = new Object();
+		 		info.title           = self.fileTitle;
+		 		info.comments        = self.comments;
     			info.timeoutOption   = parseInt(this.selected1);
     			info.timeToDelete    = parseInt(this.selected2);
-    			info.link            = filepath;
     			info.owner           = email;
     			info.data            = data;
 
@@ -146,18 +144,17 @@ function body_onload() {
 			            'content-type': 'application/json'
 			        },
 			        body: JSON.stringify(info)
-			    }).then(function(res) {
+			    	}).then(function(res) {
 			            if (res.ok) {
 			                res.json().then(function(data) {
 			                	// auth = data.authtoken;
 			                	//localStorage.setItem("authToken", data.authtoken);
 			                	var file      = new Object();
-			                	file.url      = data.link;
+			                	file.link     = data.link;
 			                	file.title    = info.title;
 			                	file.comments = info.comments;
 			                	file.date     = data.date;
-												//alert(file.title);
-												//alert(info.title);
+
 			                	self.showUpload = false;
 			                	self.files.push(file);
 			                });
@@ -170,9 +167,9 @@ function body_onload() {
 			        }).catch(function(err) {
 			        	alert(data);
 			            alert(err.message);
-			    });
+			    	});
 		 		//this.showUpload = false;
-		 	}
+		 		}
 		 	},
 
 		 	btnUpload2_click: function (event) {
@@ -181,16 +178,42 @@ function body_onload() {
 		 		//alert(url);
 		 	},
 
-		 	fileDelete: function(url) {
+		 	fileDelete: function(link) {
 		 		//alert(url);
 		 		for (var i = 0; i < this.files.length; i++) {
-					if (this.files[i].url === url) {
-						this.files.splice(i, 1);
-						//this.showConfirm = false;
-					 	return;
-					}
-	 			}
-		 	}
+			 		if (this.files[i].link === link) {
+ 						alert(i)
+ 						var self = this
+
+ 						var fileLink = new Object();
+ 						fileLink._link = this.files[i].link;
+
+ 						fetch(url + "/api/files", {
+ 					        method: "DELETE",
+ 					        headers: {
+ 					            'content-type': 'application/json'
+ 					        },
+ 					        body: JSON.stringify(fileLink)
+ 						}).then(function(res) {
+ 				            if (res.ok) {
+ 				                res.json().then(function(data) {
+ 				 		 			self.files.splice(i, 1);
+ 				                });
+ 				            }
+ 				            else {
+ 				                res.json().then(function(data) {
+ 				                    alert(data);
+ 				                });
+ 				            }
+ 				        }).catch(function(err) {
+ 				        	//alert(data);
+ 				            alert(err.message);
+ 					    });
+  						//this.showConfirm = false;
+  					 	return;
+  					}
+  				}
+			}
 		},
 	});
 }
