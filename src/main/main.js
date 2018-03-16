@@ -42,25 +42,63 @@ function body_onload() {
 		 	 date: "",
 		 	 title: "",
 		 	 comments: "",
-		 	 files:  [{url: 96, date: "02/02/2018", title: "Test4", comments: "comments hjsembfjwsbdvjksbvdkjbvszkdbvk cakezdjbkzbvdz"}, {url: 97, date: "02/02/2018", title: "Test3", comments: "comments hjsembfjwsbdvjksbvdkjbvszkdbvk cakezdjbkzbvdz"}, {url: 98, date: "02/02/2018", title: "Test2", comments: "comments hjsembfjwsbdvjksbvdkjbvszkdbvk cakezdjbkzbvdz"}, {url: 99, date: "01/02/2018", title: "Test1", comments: "comments hjsembfjwsbdvjksbvdkjbvszkdbvk cakezdjbkzbvdz"}],
+		 	 files:  [],//{url: 96, date: "02/02/2018", title: "Test4", comments: "comments hjsembfjwsbdvjksbvdkjbvszkdbvk cakezdjbkzbvdz"}, {url: 97, date: "02/02/2018", title: "Test3", comments: "comments hjsembfjwsbdvjksbvdkjbvszkdbvk cakezdjbkzbvdz"}, {url: 98, date: "02/02/2018", title: "Test2", comments: "comments hjsembfjwsbdvjksbvdkjbvszkdbvk cakezdjbkzbvdz"}, {url: 99, date: "01/02/2018", title: "Test1", comments: "comments hjsembfjwsbdvjksbvdkjbvszkdbvk cakezdjbkzbvdz"}],
  		 },
 
  		 computed: {
  		 	listFiles: function() {
- 		 		if (this.search == "") {
- 		 			this.files = gFiles;
- 		 			return this.files;
- 		 		}
+ 		 		if (this.search === "") {
+  		 			var self = this;
+ 	 		 		fetch(url + "/files", {
+ 					        method: "GET",
+ 					        headers: {
+ 					            'content-type': 'application/json'
+ 					        }
+ 					}).then(function(res) {
+ 				            if (res.ok) {
+ 				                res.json().then(function(data) {
+ 				                	alert(JSON.stringify(data[1]))
+ 				 		 			self.files = data
+ 				                });
+ 				            }
+ 				            else {
+ 				                res.json().then(function(data) {
+ 				                    alert(data.message);
+ 				                });
+ 				            }
+ 				        }).catch(function(err) {
+ 				        	//alert(data);
+ 				            alert(err.message);
+ 					    });
+ 					    return;
+   		 		}
  		 		else {
- 		 			var temp = new Array();
- 		 			for (var i = 0; i < this.files.length; i++) {
- 		 				if (this.files[i].title.toLowerCase().includes(this.search.toLowerCase())) {
- 		 					temp.push(this.files[i]);
- 		 				}
- 		 			}
-
- 		 			this.files = temp;
- 		 			return this.files;
+ 		 			var self = this;
+ 	 		 		fetch(url + "/files", {
+ 					        method: "GET",
+ 					        headers: {
+					            'content-type': 'application/json'
+ 					        }
+ 					}).then(function(res) {
+ 				            if (res.ok) {
+ 				                res.json().then(function(data) {
+				                	self.files = [];
+ 				 		 			for (var i = 1; i < data.length; i++) {
+ 				 		 				if (data[i].title.toLowerCase().includes(self.search.toLowerCase())) {
+ 				 		 					self.files.push(data[i]);
+ 				 		 				}
+ 				 		 			}
+ 				                });
+ 				            }
+ 				            else {
+ 				                res.json().then(function(data) {
+ 				                    alert(data.message);
+ 				                });
+ 				            }
+ 				        }).catch(function(err) {
+ 				        	//alert(data);
+ 				            alert(err.message);
+ 					    });
  		 		}
  		 	}
  		 },
@@ -114,12 +152,12 @@ function body_onload() {
 			                	// auth = data.authtoken;
 			                	//localStorage.setItem("authToken", data.authtoken);
 			                	var file      = new Object();
-			                	file.url      = info.link;
+			                	file.url      = data.link;
 			                	file.title    = info.title;
 			                	file.comments = info.comments;
 			                	file.date     = data.date;
-												alert(file.title);
-												alert(info.title);
+												//alert(file.title);
+												//alert(info.title);
 			                	self.showUpload = false;
 			                	self.files.push(file);
 			                });
