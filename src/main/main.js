@@ -10,12 +10,21 @@ function body_onload() {
 		 template: "#file-box-template",
 		 props: ["link", "date", "title", "comments"],
 		 data: function() {
-		 	return { showComments: false, showConfirm: false}
+		 	return { showComments: false, showConfirm: false, showShare: false, email: ""}
 	 	 },
 
 	 	 methods: {
 			 btnDelete_click: function () {
 			 	this.showConfirm = true;
+			 },
+
+			 btnShare_click: function() {
+			 	this.showShare = true;
+			 },
+
+			 btnShareConfirm_click: function() {
+			 	this.$parent.fileShare(this.link, this.email);
+			 	this.showShare = false;
 			 },
 
 			 btnYes_click: function () {
@@ -24,6 +33,7 @@ function body_onload() {
 			 },
 
 			 btnNo_click: function () {
+			 	this.showShare   = false;
 			 	this.showConfirm = false;
 			 }
 		 }
@@ -42,6 +52,7 @@ function body_onload() {
 		 	 date: "",
 		 	 title: "",
 		 	 comments: "",
+		 	 email: "",
 		 	 files:  [],//{url: 96, date: "02/02/2018", title: "Test4", comments: "comments hjsembfjwsbdvjksbvdkjbvszkdbvk cakezdjbkzbvdz"}, {url: 97, date: "02/02/2018", title: "Test3", comments: "comments hjsembfjwsbdvjksbvdkjbvszkdbvk cakezdjbkzbvdz"}, {url: 98, date: "02/02/2018", title: "Test2", comments: "comments hjsembfjwsbdvjksbvdkjbvszkdbvk cakezdjbkzbvdz"}, {url: 99, date: "01/02/2018", title: "Test1", comments: "comments hjsembfjwsbdvjksbvdkjbvszkdbvk cakezdjbkzbvdz"}],
  		 },
 
@@ -82,7 +93,7 @@ function body_onload() {
  				            if (res.ok) {
  				                res.json().then(function(data) {
 				                	self.files = [];
- 				 		 			for (var i = 1; i < data.length; i++) {
+ 				 		 			for (var i = 0; i < data.length; i++) {
  				 		 				if (data[i].title.toLowerCase().includes(self.search.toLowerCase())) {
  				 		 					self.files.push(data[i]);
  				 		 				}
@@ -165,7 +176,6 @@ function body_onload() {
 			                });
 			            }
 			        }).catch(function(err) {
-			        	alert(data);
 			            alert(err.message);
 			    	});
 		 		//this.showUpload = false;
@@ -213,6 +223,36 @@ function body_onload() {
   					 	return;
   					}
   				}
+			},
+
+			fileShare: function(link, email) {
+				var self = this;
+				var details = new Object();
+				details.shareTo = email;
+				details.url = email;
+
+				fetch(url + "/shareRequest", {
+			        method: "POST",
+			        headers: {
+			            'content-type': 'application/json'
+			        },
+			        body: JSON.stringify(details)
+			    	}).then(function(res) {
+			            if (res.ok) {
+			                res.json().then(function(data) {
+			                	// auth = data.authtoken;
+			                	//localStorage.setItem("authToken", data.authtoken);
+			                	alert(data.message);
+			                });
+			            }
+			            else {
+			                res.json().then(function(data) {
+			                    alert(data.message);
+			                });
+			            }
+			        }).catch(function(err) {
+			            alert(err.message);
+			    	});
 			}
 		},
 	});
