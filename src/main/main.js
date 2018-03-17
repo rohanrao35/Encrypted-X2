@@ -8,9 +8,9 @@ var gFiles = [{url: 96, date: "02/02/2018", title: "Test4", comments: "comments 
 function body_onload() {
 	Vue.component("file-box", {
 		 template: "#file-box-template",
-		 props: ["url", "date", "title", "comments"],
+		 props: ["link", "date", "title", "comments"],
 		 data: function() {
-		 	return { showComments: false, showConfirm: false}
+		 	return { showComments: false, showConfirm: false, showShare: false, email: ""}
 	 	 },
 
 	 	 methods: {
@@ -18,12 +18,22 @@ function body_onload() {
 			 	this.showConfirm = true;
 			 },
 
+			 btnShare_click: function() {
+			 	this.showShare = true;
+			 },
+
+			 btnShareConfirm_click: function() {
+			 	this.$parent.fileShare(this.link, this.email);
+			 	this.showShare = false;
+			 },
+
 			 btnYes_click: function () {
-			 	this.$parent.fileDelete(this.url);
+			 	this.$parent.fileDelete(this.link);
 			 	this.showConfirm = false;
 			 },
 
 			 btnNo_click: function () {
+			 	this.showShare   = false;
 			 	this.showConfirm = false;
 			 }
 		 }
@@ -42,25 +52,63 @@ function body_onload() {
 		 	 date: "",
 		 	 title: "",
 		 	 comments: "",
-		 	 files:  [{url: 96, date: "02/02/2018", title: "Test4", comments: "comments hjsembfjwsbdvjksbvdkjbvszkdbvk cakezdjbkzbvdz"}, {url: 97, date: "02/02/2018", title: "Test3", comments: "comments hjsembfjwsbdvjksbvdkjbvszkdbvk cakezdjbkzbvdz"}, {url: 98, date: "02/02/2018", title: "Test2", comments: "comments hjsembfjwsbdvjksbvdkjbvszkdbvk cakezdjbkzbvdz"}, {url: 99, date: "01/02/2018", title: "Test1", comments: "comments hjsembfjwsbdvjksbvdkjbvszkdbvk cakezdjbkzbvdz"}],
+		 	 email: "",
+		 	 files:  [],//{url: 96, date: "02/02/2018", title: "Test4", comments: "comments hjsembfjwsbdvjksbvdkjbvszkdbvk cakezdjbkzbvdz"}, {url: 97, date: "02/02/2018", title: "Test3", comments: "comments hjsembfjwsbdvjksbvdkjbvszkdbvk cakezdjbkzbvdz"}, {url: 98, date: "02/02/2018", title: "Test2", comments: "comments hjsembfjwsbdvjksbvdkjbvszkdbvk cakezdjbkzbvdz"}, {url: 99, date: "01/02/2018", title: "Test1", comments: "comments hjsembfjwsbdvjksbvdkjbvszkdbvk cakezdjbkzbvdz"}],
  		 },
 
  		 computed: {
  		 	listFiles: function() {
- 		 		if (this.search == "") {
- 		 			this.files = gFiles;
- 		 			return this.files;
- 		 		}
+ 		 		if (this.search === "") {
+  		 			var self = this;
+ 	 		 		fetch(url + "/files", {
+ 					        method: "GET",
+ 					        headers: {
+ 					            'content-type': 'application/json'
+ 					        }
+ 					}).then(function(res) {
+ 				            if (res.ok) {
+ 				                res.json().then(function(data) {
+ 				 		 			self.files = data
+ 				                });
+ 				            }
+ 				            else {
+ 				                res.json().then(function(data) {
+ 				                    alert(data.message);
+ 				                });
+ 				            }
+ 				        }).catch(function(err) {
+ 				        	//alert(data);
+ 				            alert(err.message);
+ 					    });
+ 					    return;
+   		 		}
  		 		else {
- 		 			var temp = new Array();
- 		 			for (var i = 0; i < this.files.length; i++) {
- 		 				if (this.files[i].title.toLowerCase().includes(this.search.toLowerCase())) {
- 		 					temp.push(this.files[i]);
- 		 				}
- 		 			}
-
- 		 			this.files = temp;
- 		 			return this.files;
+ 		 			var self = this;
+ 	 		 		fetch(url + "/files", {
+ 					        method: "GET",
+ 					        headers: {
+					            'content-type': 'application/json'
+ 					        }
+ 					}).then(function(res) {
+ 				            if (res.ok) {
+ 				                res.json().then(function(data) {
+				                	self.files = [];
+ 				 		 			for (var i = 0; i < data.length; i++) {
+ 				 		 				if (data[i].title.toLowerCase().includes(self.search.toLowerCase())) {
+ 				 		 					self.files.push(data[i]);
+ 				 		 				}
+ 				 		 			}
+ 				                });
+ 				            }
+ 				            else {
+ 				                res.json().then(function(data) {
+ 				                    alert(data.message);
+ 				                });
+ 				            }
+ 				        }).catch(function(err) {
+ 				        	//alert(data);
+ 				            alert(err.message);
+ 					    });
  		 		}
  		 	}
  		 },
@@ -92,12 +140,11 @@ function body_onload() {
 		 		var query  = location.search.substr(1);
 				var email  = query.substr(query.indexOf("=") + 1);
 
-			 		var info             = new Object();
-			 		info.title           = self.fileTitle;
-			 		info.comments        = self.comments;
+		 		var info             = new Object();
+		 		info.title           = self.fileTitle;
+		 		info.comments        = self.comments;
     			info.timeoutOption   = parseInt(this.selected1);
     			info.timeToDelete    = parseInt(this.selected2);
-    			info.link            = filepath;
     			info.owner           = email;
     			info.data            = data;
 
@@ -108,18 +155,17 @@ function body_onload() {
 			            'content-type': 'application/json'
 			        },
 			        body: JSON.stringify(info)
-			    }).then(function(res) {
+			    	}).then(function(res) {
 			            if (res.ok) {
 			                res.json().then(function(data) {
 			                	// auth = data.authtoken;
 			                	//localStorage.setItem("authToken", data.authtoken);
 			                	var file      = new Object();
-			                	file.url      = info.link;
+			                	file.link     = data.link;
 			                	file.title    = info.title;
 			                	file.comments = info.comments;
 			                	file.date     = data.date;
-												alert(file.title);
-												alert(info.title);
+
 			                	self.showUpload = false;
 			                	self.files.push(file);
 			                });
@@ -130,11 +176,10 @@ function body_onload() {
 			                });
 			            }
 			        }).catch(function(err) {
-			        	alert(data);
 			            alert(err.message);
-			    });
+			    	});
 		 		//this.showUpload = false;
-		 	}
+		 		}
 		 	},
 
 		 	btnUpload2_click: function (event) {
@@ -143,16 +188,72 @@ function body_onload() {
 		 		//alert(url);
 		 	},
 
-		 	fileDelete: function(url) {
+		 	fileDelete: function(link) {
 		 		//alert(url);
 		 		for (var i = 0; i < this.files.length; i++) {
-					if (this.files[i].url === url) {
-						this.files.splice(i, 1);
-						//this.showConfirm = false;
-					 	return;
-					}
-	 			}
-		 	}
+			 		if (this.files[i].link === link) {
+ 						alert(i)
+ 						var self = this
+
+ 						var fileLink = new Object();
+ 						fileLink._link = this.files[i].link;
+
+ 						fetch(url + "/api/files", {
+ 					        method: "DELETE",
+ 					        headers: {
+ 					            'content-type': 'application/json'
+ 					        },
+ 					        body: JSON.stringify(fileLink)
+ 						}).then(function(res) {
+ 				            if (res.ok) {
+ 				                res.json().then(function(data) {
+ 				 		 			self.files.splice(i, 1);
+ 				                });
+ 				            }
+ 				            else {
+ 				                res.json().then(function(data) {
+ 				                    alert(data);
+ 				                });
+ 				            }
+ 				        }).catch(function(err) {
+ 				        	//alert(data);
+ 				            alert(err.message);
+ 					    });
+  						//this.showConfirm = false;
+  					 	return;
+  					}
+  				}
+			},
+
+			fileShare: function(link, email) {
+				var self = this;
+				var details = new Object();
+				details.shareTo = email;
+				details.url = email;
+
+				fetch(url + "/shareRequest", {
+			        method: "POST",
+			        headers: {
+			            'content-type': 'application/json'
+			        },
+			        body: JSON.stringify(details)
+			    	}).then(function(res) {
+			            if (res.ok) {
+			                res.json().then(function(data) {
+			                	// auth = data.authtoken;
+			                	//localStorage.setItem("authToken", data.authtoken);
+			                	alert(data.message);
+			                });
+			            }
+			            else {
+			                res.json().then(function(data) {
+			                    alert(data.message);
+			                });
+			            }
+			        }).catch(function(err) {
+			            alert(err.message);
+			    	});
+			}
 		},
 	});
 }

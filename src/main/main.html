@@ -30,8 +30,9 @@
 				</transition>
 			 </div>
 
-    		<button id = "icon" class="btnDelete" v-on:click="btnDelete_click"><i class="fa fa-trash w3-xxlarge"></i></button>
-    		
+			<button id = "icon" class="btnDelete" style="position: absolute; left: 375px;" v-on:click="btnDelete_click"><i class="fa fa-trash w3-xxlarge"></i></button>
+			<button id = "icon" class="btnShare" v-on:click="btnShare_click"><i class="fa fa-share-square-o w3-xxlarge"></i></button>
+
     		<transition name="fade">
 	    		<div class="divConfirm" v-show="showConfirm">
 	    			<label class="lblConfirmMsg">Are you sure you want to delete this file?</label>
@@ -39,6 +40,15 @@
 	    			<button class="btnNo" v-on:click="btnNo_click">No</button>
 	    		</div>
     		</transition>
+
+    		<transition name="fade">
+	    		<div class="divConfirm" v-show="showShare">
+	    			<input type="text" placeholder="Share with" class="lblConfirmMsg" v-model="email">
+	    			<button class="btnYes" v-on:click="btnShareConfirm_click">Share</button>
+	    			<button class="btnNo" v-on:click="btnNo_click">Cancel</button>
+	    		</div>
+    		</transition>
+
 		</div>
 
   </script>
@@ -100,10 +110,11 @@
 		</transition>
 
 		<file-box v-for="file in files"
-					  v-bind:url="file.url" 					  
+					  v-bind:link="file.link" 					  
  					  v-bind:date="file.date"
  					  v-bind:title="file.title"
- 					  v-bind:comments="file.comments">
+ 					  v-bind:comments="file.comments"
+ 					  v-bind:email="file.email">
  		</file-box>
 	</div>
 

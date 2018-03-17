@@ -203,11 +203,11 @@ app.post('/shareRequest', function(req, res){
   var collection = db.collection('users');
   collection.find({email: shareTo}).toArray(function (err, items2) {
     var user = items2[0];
-    var len2 = user.sharedWithMe.length;
     if(user){
-     // collection2.updateOne({email: shareTo}, {$set:{sharedWithMe.$[len2]: req.body.url}});
-     collection.updateOne({email: shareTo},  { $push: { sharedRequests: req.body.url} });
-     return res.status(200).json({message: "Success"});
+      var len2 = user.sharedWithMe.length;
+      // collection2.updateOne({email: shareTo}, {$set:{sharedWithMe.$[len2]: req.body.url}});
+      collection.updateOne({email: shareTo},  { $push: { sharedRequests: req.body.url} });
+      return res.status(200).json({message: "Success"});
 
     }
     else{
