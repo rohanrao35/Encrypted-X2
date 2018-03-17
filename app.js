@@ -316,7 +316,7 @@ app.post('/addfile', (req, res) => {
   var file = req.body;
   var encryptor = require('file-encryptor');
   var key = 'Encrypted';
-
+  var owner = file.owner;
 
 
   var Cryptr = require('cryptr'),
@@ -353,6 +353,10 @@ console.log(encryptedString);  // e74d7c0de21e72aaffc8f2eef2bdb7c1
       console.log(arguments);
       console.log('Successfully uploaded package.');
     });
+
+  var collection = db.collection('users');
+  collection.updateOne({email: owner}, { $push: { files: file.link} });
+
 	Files.addFile(file, (err, file) => {
 		if(err){
 			throw err;
@@ -364,7 +368,51 @@ console.log(encryptedString);  // e74d7c0de21e72aaffc8f2eef2bdb7c1
 //  return res.status(200).json({link: file.link});
 
 });
+/*
+app.get("/downloadFile/:_fileName", function (req, res) {
 
+  var a = 'AKIAJIWL4ZC';
+  var b = '3S26DRGPQ';
+  var c = 'GRna0iPyNPBG5FTsIOUeD';
+  var d = 'CsmkVQ8A1q2oL+RWddc';
+  var ab = a + b;
+  var cd = c + d;
+  // AWS.config.update({ accessKeyId: ab, secretAccessKey: cd });
+  // var fileName = req.params._fileName;
+  // if (!fileName) {
+  //   return res.status(401).end("missing file name");
+  // }
+  // var options = {
+  //   Bucket: 'encryptedx2_content',
+  //   Key: 'E'
+  // };
+  // res.attachment(fileName);
+  //
+  var s3 = new AWS.S3({
+    accessKeyId: ab,
+    secretAccessKey: cd
+}),
+file = fs.createWriteStream(localFileName);
+s3
+.getObject({
+    Bucket: 'encryptedx2_content',
+    Key: 'E'
+})
+.on('error', function (err) {
+    console.log(err);
+})
+.on('httpData', function (chunk) {
+    file.write(chunk);
+})
+.on('httpDone', function () {
+    file.end();
+})
+.send();WS.S3();
+  // s3.getObject(options).createReadStream().pipe(res);
+  // return res.status(200).json({message: "Success"});
+
+});
+*/
 
 function isLoggedIn(req, res, next) {
 
