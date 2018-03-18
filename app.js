@@ -189,27 +189,31 @@ app.get('/files', function(req, res){
       res.json(files);
   });
 });
-/*
+
 app.get('/filesSharedWithMe', function(req, res){
 
-  Files.getFilesSharedWithMe(function(err, files){
-      if(err){
-        throw err;
-      }
-      res.json(files);
-  });
+  var collection = db.collection('users');
+
+  collection.find({email: req.body.email}).toArray(function (err, items) {
+    res.send(items[0].sharedWithMe);
+
+  }
+
+      //res.json(files);
+      //res.render("userWorkouts30", {shared: milesRun});
+
 });
 
 app.get('/filesIShared', function(req, res){
+  var collection = db.collection('users');
 
-  Files.getFilesIShared(function(err, files){
-      if(err){
-        throw err;
-      }
-      res.json(files);
-  });
+  collection.find({email: req.body.email}).toArray(function (err, items) {
+    res.send(items[0].sharingFiles);
+
+  }
+
 });
-*/
+
 //
 ///////////////////////////////////ADDED
 app.post('/shareRequest', function(req, res){
