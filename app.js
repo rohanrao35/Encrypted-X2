@@ -190,11 +190,11 @@ app.get('/files', function(req, res){
   });
 });
 
-app.get('/filesSharedWithMe', function(req, res){
+app.get('/filesSharedWithMe/:email', function(req, res){
 
   var collection = db.collection('users');
 
-  collection.find({email: req.body.email}).toArray(function (err, items) {
+  collection.find({email: req.params.email}).toArray(function (err, items) {
     res.send(items[0].sharedWithMe);
 
   }
@@ -204,10 +204,10 @@ app.get('/filesSharedWithMe', function(req, res){
 
 });
 
-app.get('/filesIShared', function(req, res){
+app.get('/filesIShared/:email', function(req, res){
   var collection = db.collection('users');
 
-  collection.find({email: req.body.email}).toArray(function (err, items) {
+  collection.find({email: req.params.email}).toArray(function (err, items) {
     res.send(items[0].sharingFiles);
 
   }
@@ -229,7 +229,7 @@ app.post('/shareRequest', function(req, res){
     if(user){
       var len2 = user.sharedWithMe.length;
       // collection2.updateOne({email: shareTo}, {$set:{sharedWithMe.$[len2]: req.body.url}});
-      collection.updateOne({email: shareTo},  { $push: { sharedRequests: req.body.url} });
+      collection.updateOne({email: shareTo},  { $push: { shareRequests: req.body.url} });
       return res.status(200).json({message: "Success"});
 
     }
@@ -299,6 +299,7 @@ app.post('/shareAccept', function(req, res){
 ///////////////////////////////ADDED
 app.post('/shareDeny', function(req, res){
   //console.log(req.body.email);
+  var shareTo = req.body.shareTo;
 
   //Need to pass the url of the file to share and the email address of the person to share with
   collection.find({email: shareTo}).toArray(function (err, items) {
