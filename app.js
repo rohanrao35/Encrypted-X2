@@ -190,37 +190,45 @@ app.get('/files', function(req, res){
   });
 });
 
-app.get('/filesSharedWithMe/:email', function(req, res){
+app.get('/filesSharedWithMe', function(req, res){
 
   var collection = db.collection('users');
 
-  collection.find({email: req.params.email}).toArray(function (err, items) {
-    res.send(items[0].sharedWithMe);
-
-  }
+  collection.find({email: req.query.email}).toArray(function (err, items) {
+    var result = [];
+    if (items || items[0].shareRequests.length == 0) {
+      console.log(items[0].shareRequests);
+      res.status(200).json({data: items[0].shareRequests});
+      //res.send(items[0].sharedRequests);
+    }
+    else res.send(result);
+  });
 
       //res.json(files);
       //res.render("userWorkouts30", {shared: milesRun});
 
 });
 
-app.get('/filesIShared/:email', function(req, res){
+app.get('/filesIShared', function(req, res){
   var collection = db.collection('users');
 
-  collection.find({email: req.params.email}).toArray(function (err, items) {
+  collection.find({email: req.query.email}).toArray(function (err, items) {
     res.send(items[0].sharingFiles);
 
-  }
+  });
 
 });
 
-app.get('/myFiles/:email', function(req, res){
+app.get('/myFiles', function(req, res){
   var collection = db.collection('users');
 
-  collection.find({email: req.params.email}).toArray(function (err, items) {
-    res.send(items[0].files);
-
-  }
+  collection.find({email: req.query.email}).toArray(function (err, items) {
+    var result = [];
+    if (items && items.length > 0) {
+      res.status(200).json({data: items[0].files});
+    }
+    else res.send(result);
+  });
 
 });
 
@@ -234,13 +242,17 @@ app.post('/shareRequest', function(req, res){
 
 
   var collection = db.collection('users');
+  var collection2 = db.collection('files');
+
   collection.find({email: shareTo}).toArray(function (err, items2) {
     var user = items2[0];
     if(user){
       var len2 = user.sharedWithMe.length;
       // collection2.updateOne({email: shareTo}, {$set:{sharedWithMe.$[len2]: req.body.url}});
-      collection.updateOne({email: shareTo},  { $push: { shareRequests: req.body.url} });
-      return res.status(200).json({message: "Success"});
+      collection2.find({link: req.body.url}).toArray(function (err, items3) {
+        collection.updateOne({email: shareTo},  { $push: { shareRequests: items3[0]} });
+        return res.status(200).json({message: "Success"});
+      });
 
     }
     else{
@@ -390,7 +402,7 @@ console.log(encryptedString);  // e74d7c0de21e72aaffc8f2eef2bdb7c1
     });
 
   var collection = db.collection('users');
-  collection.updateOne({email: owner}, { $push: { files: file.link} });
+  collection.updateOne({email: owner}, { $push: { files: file} });
 
 	Files.addFile(file, (err, file) => {
 		if(err){

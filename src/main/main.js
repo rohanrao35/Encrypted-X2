@@ -12,7 +12,14 @@ function body_onload() {
 		 template: "#file-box-template",
 		 props: ["link", "date", "title", "comments"],
 		 data: function() {
-		 	return { showComments: false, showConfirm: false, showShare: false, email: ""}
+		 	return { showComments: false, showConfirm: false, showShare: false, showSharedFiles: false, email: ""}
+	 	 },
+
+	 	 computed: {
+	 	 	computeShow: function() {
+	 	 		if (type === "1") this.showSharedFiles = false;
+	 	 		else              this.showSharedFiles = true;
+	 	 	}
 	 	 },
 
 	 	 methods: {
@@ -60,11 +67,13 @@ function body_onload() {
 
  		 computed: {
  		 	listFiles: function() {
- 		 		var endpoint = "/files"
- 		 	 	if (type === "2") endpoint = "/shared"
+ 		 		var query  = location.search.substr(1);
+				var email  = query.substr(query.indexOf("=") + 1);
+ 		 		var endpoint = "/myFiles?email=" + email;
+ 		 	 	if (type === "2") endpoint = "/filesSharedWithMe?email=" + email;
  		 		//alert(type)
 
- 		 		if (this.search === "" && oldType !== type) {
+ 		 		if (this.search === "") {
   		 			var self = this;
  	 		 		fetch(url + endpoint, {
  					        method: "GET",
@@ -74,7 +83,8 @@ function body_onload() {
  					}).then(function(res) {
  				            if (res.ok) {
  				                res.json().then(function(data) {
- 				 		 			self.files = data
+ 				                	//alert(JSON.stringify(data))
+ 				 		 			self.files = data.data
  				                });
  				            }
  				            else {
@@ -99,9 +109,9 @@ function body_onload() {
  				            if (res.ok) {
  				                res.json().then(function(data) {
 				                	self.files = [];
- 				 		 			for (var i = 0; i < data.length; i++) {
- 				 		 				if (data[i].title.toLowerCase().includes(self.search.toLowerCase())) {
- 				 		 					self.files.push(data[i]);
+ 				 		 			for (var i = 0; i < data.data.length; i++) {
+ 				 		 				if (data.data[i].title.toLowerCase().includes(self.search.toLowerCase())) {
+ 				 		 					self.files.push(data.data[i]);
  				 		 				}
  				 		 			}
  				                });
@@ -247,7 +257,7 @@ function body_onload() {
 				var self = this;
 				var details = new Object();
 				details.shareTo = email;
-				details.url = email;
+				details.url = link;
 
 				fetch(url + "/shareRequest", {
 			        method: "POST",

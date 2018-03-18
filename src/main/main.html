@@ -26,12 +26,15 @@
 			 	<label class="lblTitle" v-on:mouseover="showComments = true" v-on:mouseleave="showComments = false">{{title}}</label>
 			 	<!-- <label class="lblQuestionText" v-on:mouseover="showAnswer = true" v-on:mouseleave="showAnswer = false">{{text}}</label> -->
 			 	<transition name="fade">
-	    			<div align="top-left" class=divCommentsBox v-show="showComments">{{comments}}</div>
+	    			<div v-show="!showSharedFiles"><div align="top-left" class=divCommentsBox v-show="showComments">{{comments}}</div></div>
 				</transition>
 			 </div>
 
-			<button id = "icon" class="btnDelete" style="position: absolute; left: 375px;" v-on:click="btnDelete_click"><i class="fa fa-trash w3-xxlarge"></i></button>
-			<button id = "icon" class="btnShare" v-on:click="btnShare_click"><i class="fa fa-share-square-o w3-xxlarge"></i></button>
+			<button id = "icon" class="btnDelete" style="position: absolute; left: 375px;" v-on:click="btnDelete_click" v-show="!showSharedFiles">{{computeShow}}<i class="fa fa-trash w3-xxlarge"></i></button>
+			<button id = "icon" class="btnShare" v-on:click="btnShare_click" v-show="!showSharedFiles">{{computeShow}}<i class="fa fa-share-square-o w3-xxlarge"></i></button>
+
+			<button style="position: absolute; left: 350px; background-color: green" v-show="showSharedFiles">{{computeShow}}Accept</button>
+			<button style="position: absolute; left: 425px; background-color: red" v-show="showSharedFiles">{{computeShow}}Deny</button>
 
     		<transition name="fade">
 	    		<div class="divConfirm" v-show="showConfirm">
