@@ -189,8 +189,27 @@ app.get('/files', function(req, res){
       res.json(files);
   });
 });
+/*
+app.get('/filesSharedWithMe', function(req, res){
 
+  Files.getFilesSharedWithMe(function(err, files){
+      if(err){
+        throw err;
+      }
+      res.json(files);
+  });
+});
 
+app.get('/filesIShared', function(req, res){
+
+  Files.getFilesIShared(function(err, files){
+      if(err){
+        throw err;
+      }
+      res.json(files);
+  });
+});
+*/
 //
 ///////////////////////////////////ADDED
 app.post('/shareRequest', function(req, res){
@@ -249,6 +268,7 @@ app.post('/shareAccept', function(req, res){
        if(user){
         // collection2.updateOne({email: shareTo}, {$set:{sharedWithMe.$[len2]: req.body.url}});
         collection2.updateOne({email: shareTo},  { $push: { sharedWithMe: req.body.url} });
+        collection2.updateOne({email: req.body.owner},  { $push: { sharingFiles: req.body.url} });
 /////////////////////////////ADDED
         var _link = req.body.url;
         Files.removeFileRequest(_link, (err, _link) => {
