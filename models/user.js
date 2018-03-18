@@ -11,6 +11,7 @@ var UserSchema = new mongoose.Schema({
   securityAnswer: String,
   files: Array,
   sharedWithMe: Array,
+  sharingFiles: Array,
   /////////////ADDED
   shareRequests: Array
   ///////////////////

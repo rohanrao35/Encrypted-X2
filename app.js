@@ -190,6 +190,39 @@ app.get('/files', function(req, res){
   });
 });
 
+app.get('/filesSharedWithMe/:email', function(req, res){
+
+  var collection = db.collection('users');
+
+  collection.find({email: req.params.email}).toArray(function (err, items) {
+    res.send(items[0].sharedWithMe);
+
+  }
+
+      //res.json(files);
+      //res.render("userWorkouts30", {shared: milesRun});
+
+});
+
+app.get('/filesIShared/:email', function(req, res){
+  var collection = db.collection('users');
+
+  collection.find({email: req.params.email}).toArray(function (err, items) {
+    res.send(items[0].sharingFiles);
+
+  }
+
+});
+
+app.get('/myFiles/:email', function(req, res){
+  var collection = db.collection('users');
+
+  collection.find({email: req.params.email}).toArray(function (err, items) {
+    res.send(items[0].files);
+
+  }
+
+});
 
 //
 ///////////////////////////////////ADDED
@@ -206,7 +239,7 @@ app.post('/shareRequest', function(req, res){
     if(user){
       var len2 = user.sharedWithMe.length;
       // collection2.updateOne({email: shareTo}, {$set:{sharedWithMe.$[len2]: req.body.url}});
-      collection.updateOne({email: shareTo},  { $push: { sharedRequests: req.body.url} });
+      collection.updateOne({email: shareTo},  { $push: { shareRequests: req.body.url} });
       return res.status(200).json({message: "Success"});
 
     }
@@ -249,6 +282,7 @@ app.post('/shareAccept', function(req, res){
        if(user){
         // collection2.updateOne({email: shareTo}, {$set:{sharedWithMe.$[len2]: req.body.url}});
         collection2.updateOne({email: shareTo},  { $push: { sharedWithMe: req.body.url} });
+        collection2.updateOne({email: req.body.owner},  { $push: { sharingFiles: req.body.url} });
 /////////////////////////////ADDED
         var _link = req.body.url;
         Files.removeFileRequest(_link, (err, _link) => {
@@ -275,6 +309,7 @@ app.post('/shareAccept', function(req, res){
 ///////////////////////////////ADDED
 app.post('/shareDeny', function(req, res){
   //console.log(req.body.email);
+  var shareTo = req.body.shareTo;
 
   //Need to pass the url of the file to share and the email address of the person to share with
   collection.find({email: shareTo}).toArray(function (err, items) {
@@ -316,7 +351,7 @@ app.post('/addfile', (req, res) => {
   var file = req.body;
   var encryptor = require('file-encryptor');
   var key = 'Encrypted';
-
+  var owner = file.owner;
 
 
   var Cryptr = require('cryptr'),
@@ -353,6 +388,10 @@ console.log(encryptedString);  // e74d7c0de21e72aaffc8f2eef2bdb7c1
       console.log(arguments);
       console.log('Successfully uploaded package.');
     });
+
+  var collection = db.collection('users');
+  collection.updateOne({email: owner}, { $push: { files: file.link} });
+
 	Files.addFile(file, (err, file) => {
 		if(err){
 			throw err;
@@ -364,7 +403,51 @@ console.log(encryptedString);  // e74d7c0de21e72aaffc8f2eef2bdb7c1
 //  return res.status(200).json({link: file.link});
 
 });
+/*
+app.get("/downloadFile/:_fileName", function (req, res) {
 
+  var a = 'AKIAJIWL4ZC';
+  var b = '3S26DRGPQ';
+  var c = 'GRna0iPyNPBG5FTsIOUeD';
+  var d = 'CsmkVQ8A1q2oL+RWddc';
+  var ab = a + b;
+  var cd = c + d;
+  // AWS.config.update({ accessKeyId: ab, secretAccessKey: cd });
+  // var fileName = req.params._fileName;
+  // if (!fileName) {
+  //   return res.status(401).end("missing file name");
+  // }
+  // var options = {
+  //   Bucket: 'encryptedx2_content',
+  //   Key: 'E'
+  // };
+  // res.attachment(fileName);
+  //
+  var s3 = new AWS.S3({
+    accessKeyId: ab,
+    secretAccessKey: cd
+}),
+file = fs.createWriteStream(localFileName);
+s3
+.getObject({
+    Bucket: 'encryptedx2_content',
+    Key: 'E'
+})
+.on('error', function (err) {
+    console.log(err);
+})
+.on('httpData', function (chunk) {
+    file.write(chunk);
+})
+.on('httpDone', function () {
+    file.end();
+})
+.send();WS.S3();
+  // s3.getObject(options).createReadStream().pipe(res);
+  // return res.status(200).json({message: "Success"});
+
+});
+*/
 
 function isLoggedIn(req, res, next) {
 
