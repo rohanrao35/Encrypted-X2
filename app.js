@@ -214,6 +214,16 @@ app.get('/filesIShared/:email', function(req, res){
 
 });
 
+app.get('/myFiles/:email', function(req, res){
+  var collection = db.collection('users');
+
+  collection.find({email: req.params.email}).toArray(function (err, items) {
+    res.send(items[0].files);
+
+  }
+
+});
+
 //
 ///////////////////////////////////ADDED
 app.post('/shareRequest', function(req, res){
