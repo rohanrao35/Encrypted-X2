@@ -3,7 +3,9 @@
 var url  = "http://localhost:3000"
 var auth = ""
 var filepath = ""
-var gFiles = [{url: 96, date: "02/02/2018", title: "Test4", comments: "comments hjsembfjwsbdvjksbvdkjbvszkdbvk cakezdjbkzbvdz"}, {url: 97, date: "02/02/2018", title: "Test3", comments: "comments hjsembfjwsbdvjksbvdkjbvszkdbvk cakezdjbkzbvdz"}, {url: 98, date: "02/02/2018", title: "Test2", comments: "comments hjsembfjwsbdvjksbvdkjbvszkdbvk cakezdjbkzbvdz"}, {url: 99, date: "01/02/2018", title: "Test1", comments: "comments hjsembfjwsbdvjksbvdkjbvszkdbvk cakezdjbkzbvdz"}]
+//var gFiles = [{url: 96, date: "02/02/2018", title: "Test4", comments: "comments hjsembfjwsbdvjksbvdkjbvszkdbvk cakezdjbkzbvdz"}, {url: 97, date: "02/02/2018", title: "Test3", comments: "comments hjsembfjwsbdvjksbvdkjbvszkdbvk cakezdjbkzbvdz"}, {url: 98, date: "02/02/2018", title: "Test2", comments: "comments hjsembfjwsbdvjksbvdkjbvszkdbvk cakezdjbkzbvdz"}, {url: 99, date: "01/02/2018", title: "Test1", comments: "comments hjsembfjwsbdvjksbvdkjbvszkdbvk cakezdjbkzbvdz"}]
+var type = "1"
+var oldType = "1"
 
 function body_onload() {
 	Vue.component("file-box", {
@@ -58,9 +60,13 @@ function body_onload() {
 
  		 computed: {
  		 	listFiles: function() {
- 		 		if (this.search === "") {
+ 		 		var endpoint = "/files"
+ 		 	 	if (type === "2") endpoint = "/shared"
+ 		 		//alert(type)
+
+ 		 		if (this.search === "" && oldType !== type) {
   		 			var self = this;
- 	 		 		fetch(url + "/files", {
+ 	 		 		fetch(url + endpoint, {
  					        method: "GET",
  					        headers: {
  					            'content-type': 'application/json'
@@ -84,7 +90,7 @@ function body_onload() {
    		 		}
  		 		else {
  		 			var self = this;
- 	 		 		fetch(url + "/files", {
+ 	 		 		fetch(url + endpoint, {
  					        method: "GET",
  					        headers: {
 					            'content-type': 'application/json'
@@ -114,6 +120,18 @@ function body_onload() {
  		 },
 
 		 methods: {
+		 	btnMyFiles_click: function () {
+		 		type = "1";
+		 		this.search = "1";
+		 		this.search = "";
+		 	},
+
+		 	btnShareReqs_click: function () {
+		 		type = "2";
+		 		this.search = "1";
+		 		this.search = "";
+		 	},
+
 		 	btnUpload1_click: function () {
 		 		this.showUpload = true;
 		 	},

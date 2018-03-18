@@ -76,7 +76,10 @@
 				 {{listFiles}}
 				 <div id="divSearch">
 				 	<input type="text" placeholder=" Search" id="txtSearch" v-model="search"/>
+				 	<button class="btnMyFiles" v-on:click="btnMyFiles_click">My Files</button>
+				 	<button class="btnShareRequests" v-on:click="btnShareReqs_click">Share Requests</button>
 			 	</div>
+
 	 	</transition>
 
  		<transition name="fade">

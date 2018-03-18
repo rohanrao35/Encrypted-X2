@@ -222,7 +222,7 @@ app.post('/shareRequest', function(req, res){
 app.post('/shareAccept', function(req, res){
   //console.log(req.body.email);
 
-  //Need to pass the url of the file to share and the email address of the person to share with
+  // Need to pass the url of the file to share and the email address of the person to share with
 
 
   var shareTo = req.body.shareTo;
