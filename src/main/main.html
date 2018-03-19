@@ -23,7 +23,7 @@
 			 </div>
 
 			 <div  class="divBox2">
-			 	<label class="lblTitle" v-on:mouseover="showComments = true" v-on:mouseleave="showComments = false">{{title}}</label>
+			 	<label class="lblTitle" v-on:mouseover="showComments = true" v-on:mouseleave="showComments = false" v-on:click="title_click">{{title}}</label>
 			 	<!-- <label class="lblQuestionText" v-on:mouseover="showAnswer = true" v-on:mouseleave="showAnswer = false">{{text}}</label> -->
 			 	<transition name="fade">
 	    			<div v-show="!showSharedFiles"><div align="top-left" class=divCommentsBox v-show="showComments">{{comments}}</div></div>
@@ -35,6 +35,14 @@
 
 			<button style="position: absolute; left: 350px; background-color: green" v-show="showSharedFiles">{{computeShow}}Accept</button>
 			<button style="position: absolute; left: 425px; background-color: red" v-show="showSharedFiles">{{computeShow}}Deny</button>
+
+			<transition name="fade">
+	    		<div class="divConfirm" v-show="showAccessKey">
+	    			<input type="text" placeholder="Your Access Key" class="lblConfirmMsg" v-model="key">
+	    			<button class="btnYes" v-on:click="btnOK_click">OK </button>
+	    			<button class="btnNo" v-on:click="btnNo_click">Cancel</button>
+	    		</div>
+    		</transition>
 
     		<transition name="fade">
 	    		<div class="divConfirm" v-show="showConfirm">
@@ -115,12 +123,21 @@
 			 </div>
 		</transition>
 
+		<transition name="fade">
+	    	<div class="divText" v-show="showText">
+    			<textarea type="text" id="txtContents" v-model="text"></textarea>
+    			<button class="btnCancel2" v-on:click="btnCancel_click">Close</button>
+    		</div>
+    	</transition>
+
+
 		<file-box v-for="file in files"
 					  v-bind:link="file.link" 					  
  					  v-bind:date="file.date"
  					  v-bind:title="file.title"
  					  v-bind:comments="file.comments"
- 					  v-bind:email="file.email">
+ 					  v-bind:email="file.email"
+ 					  v-bind:key="file.key">
  		</file-box>
 	</div>
 

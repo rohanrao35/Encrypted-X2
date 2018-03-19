@@ -12,7 +12,7 @@ function body_onload() {
 		 template: "#file-box-template",
 		 props: ["link", "date", "title", "comments"],
 		 data: function() {
-		 	return { showComments: false, showConfirm: false, showShare: false, showSharedFiles: false, email: ""}
+		 	return { showComments: false, showConfirm: false, showShare: false, showSharedFiles: false, showAccessKey: false, email: "", key: ""}
 	 	 },
 
 	 	 computed: {
@@ -23,6 +23,15 @@ function body_onload() {
 	 	 },
 
 	 	 methods: {
+	 	 	 title_click: function() {
+	 	 	 	this.showAccessKey = true;
+	 	 	 },
+
+	 	 	 btnOK_click: function() {
+	 	 	 	this.showAccessKey = false;
+	 	 	 	this.$parent.viewFile(this.link, this.key);
+	 	 	 },
+
 			 btnDelete_click: function () {
 			 	this.showConfirm = true;
 			 },
@@ -37,13 +46,16 @@ function body_onload() {
 			 },
 
 			 btnYes_click: function () {
-			 	this.$parent.fileDelete(this.link);
+			 	var query  = location.search.substr(1);
+				var email  = query.substr(query.indexOf("=") + 1);
+			 	this.$parent.fileDelete(this.link, email);
 			 	this.showConfirm = false;
 			 },
 
 			 btnNo_click: function () {
-			 	this.showShare   = false;
-			 	this.showConfirm = false;
+			 	this.showShare     = false;
+			 	this.showConfirm   = false;
+			 	this.showAccessKey = false;
 			 }
 		 }
 	 })
@@ -52,12 +64,14 @@ function body_onload() {
 		 el: "#main",
 		 data: {
 		 	 showUpload: false,
+		 	 showText:   false,
 		 	 search:     "",
 		 	 selected1:  "",
 		 	 selected2:  "",
 		 	 comments:   "",
 		 	 fileTitle:  "",
 
+		 	 text: "",
 		 	 date: "",
 		 	 title: "",
 		 	 comments: "",
@@ -152,6 +166,7 @@ function body_onload() {
 
 		 	btnCancel_click: function () {
 		 		this.showUpload = false;
+		 		this.showText   = false;
 		 	},
 
 		 	btnSave_click: function () {
@@ -186,16 +201,10 @@ function body_onload() {
 			    	}).then(function(res) {
 			            if (res.ok) {
 			                res.json().then(function(data) {
-			                	// auth = data.authtoken;
-			                	//localStorage.setItem("authToken", data.authtoken);
-			                	var file      = new Object();
-			                	file.link     = data.link;
-			                	file.title    = info.title;
-			                	file.comments = info.comments;
-			                	file.date     = data.date;
+			  
 
 			                	self.showUpload = false;
-			                	self.files.push(file);
+			                	self.files.push(data);
 			                });
 			            }
 			            else {
@@ -216,15 +225,16 @@ function body_onload() {
 		 		//alert(url);
 		 	},
 
-		 	fileDelete: function(link) {
+		 	fileDelete: function(link, email) {
 		 		//alert(url);
 		 		for (var i = 0; i < this.files.length; i++) {
 			 		if (this.files[i].link === link) {
- 						alert(i)
+ 						//alert(i)
  						var self = this
 
  						var fileLink = new Object();
  						fileLink._link = this.files[i].link;
+ 						fileLink.email = email;
 
  						fetch(url + "/api/files", {
  					        method: "DELETE",
@@ -281,6 +291,46 @@ function body_onload() {
 			        }).catch(function(err) {
 			            alert(err.message);
 			    	});
+			},
+
+			viewFile: function(link, key) { 
+				for (var i = 0; i < this.files.length; i++) {
+					if (this.files[i].link == link) {
+						var query  = location.search.substr(1);
+						var email  = query.substr(query.indexOf("=") + 1);
+						//alert(this.files[i].data);
+
+						var text = new Object();
+						text.data = this.files[i].data;
+						text.accessKey = key;
+						text.email = email;
+
+						var self = this;
+						fetch(url + "/decrypt", {
+					        method: "POST",
+					        headers: {
+					            'content-type': 'application/json'
+					        },
+					        body: JSON.stringify(text)
+					    	}).then(function(res) {
+					            if (res.ok) {
+					                res.json().then(function(data) {
+					                	// auth = data.authtoken;
+					                	//localStorage.setItem("authToken", data.authtoken);
+					                	self.text = data.text;
+					                	self.showText = true;
+					                });
+					            }
+					            else {
+					                res.json().then(function(data) {
+					                    alert(data.message);
+					                });
+					            }
+					        }).catch(function(err) {
+					            alert(err.message);
+					    	});
+					}
+				}
 			}
 		},
 	});

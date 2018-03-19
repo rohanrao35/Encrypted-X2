@@ -32,6 +32,33 @@
 	float: right;
 }
 
+.divText {
+	position: absolute;
+	left: 700px;
+	height: 600px;
+	width: 600px;
+	top: 250px;
+	padding-top: 50px;
+	padding-bottom: 50px;
+	border: 1px solid #cfc7c7;
+	background-color: #e6e6ff;
+	box-shadow:0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+#txtContents {
+	width: 600px;
+	height: 500px;
+	text-align: left;
+	font-family: Sans-Serif;
+}
+
+.btnCancel2 {
+	position: relative;
+	left: 270px;
+	height: 35px;
+	width: 65px;
+}
+
 .divConfirm {
 	position: relative;
 	left: 0px;

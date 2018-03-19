@@ -321,6 +321,7 @@ app.post('/shareAccept', function(req, res){
 ///////////////////////////////ADDED
 app.post('/shareDeny', function(req, res){
   //console.log(req.body.email);
+  var collection = db.collection('users');
   var shareTo = req.body.shareTo;
 
   //Need to pass the url of the file to share and the email address of the person to share with
@@ -348,6 +349,25 @@ app.post('/shareDeny', function(req, res){
 app.delete('/api/files', (req, res) => {
 	var _link = req.body._link;
   //id = "5a7a4e9c52e1bf1e8c1c4076";
+  var collection = db.collection('users');
+
+  /*collection.find({email: req.body.email}).toArray(function (err, items) { 
+    for (var i = 0; i < items[0].files.length; i++) {
+      if (items[0].files.link == _link) {
+        items[0].files.splice(i, 1);
+        break;
+      }
+    }
+
+
+  });*/
+
+  console.log(_link)
+  collection.update({email: req.body.email}, {'$pull': { files: _link } });
+
+
+
+
 	Files.removeFile(_link, (err, _link) => {
 		if(err){
 			throw err;
@@ -356,6 +376,28 @@ app.delete('/api/files', (req, res) => {
 	});
 });
 
+app.post('/decrypt', (req, res) => {
+
+  var collection = db.collection('users');
+
+
+  collection.find({email: req.body.email}).toArray(function (err, items) {
+    console.log(req.body.accessKey)
+    if(items[0].accessKey != req.body.accessKey){
+      res.json({message: "Failure", text: "Incorrect access key"});
+    }
+
+    else {
+      var string = req.body.data;
+      var Cryptr = require('cryptr'),
+      cryptr = new Cryptr('myTotalySecretKey');
+      var decryptedString = cryptr.decrypt(string);
+
+      res.json({message: "Success", text: decryptedString});
+    }
+  });
+
+});
 
 
 app.post('/addfile', (req, res) => {
@@ -372,6 +414,7 @@ app.post('/addfile', (req, res) => {
 
 var encryptedString = cryptr.encrypt(req.body.data);
 //var decryptedString = cryptr.decrypt(encryptedString);
+file.data = encryptedString;
 
 console.log(req.body.data);
 console.log(encryptedString);  // e74d7c0de21e72aaffc8f2eef2bdb7c1
@@ -404,12 +447,13 @@ console.log(encryptedString);  // e74d7c0de21e72aaffc8f2eef2bdb7c1
   var collection = db.collection('users');
   collection.updateOne({email: owner}, { $push: { files: file} });
 
-	Files.addFile(file, (err, file) => {
+	Files.addFile(file, (err, file1) => {
 		if(err){
 			throw err;
 		}
 		//res.json(file);
-    return res.status(200).json({link: file.link});
+    file1.data = file.data
+    return res.status(200).send(file);
 	});
 
 //  return res.status(200).json({link: file.link});
